@@ -22,6 +22,10 @@
                 <span>Presensi</span>
             </li>
             <li class="flex items-center p-4 hover:bg-green-700">
+                <i class="fas fa-calendar-check mr-2"></i>
+                <span>Pengumuman</span>
+            </li>
+            <li class="flex items-center p-4 hover:bg-green-700">
                 <i class="fas fa-clipboard-list mr-2"></i>
                 <span>Nilai</span>
             </li>

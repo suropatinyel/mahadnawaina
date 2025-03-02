@@ -21,6 +21,11 @@
             </div>
 
             <div>
+                <label class="block text-gray-700 font-bold mb-2" for="nominal">Tanggal</label>
+                <input type="text" id="nominal" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Masukkan nominal pembayaran">
+            </div>
+
+            <div>
                 <label class="block text-gray-700 font-bold mb-2" for="method">Metode Pembayaran</label>
                 <select id="method" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500">
                     <option value="">Pilih metode pembayaran</option>
