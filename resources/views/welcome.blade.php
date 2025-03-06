@@ -27,10 +27,10 @@
                 </div>
             </div>
             <div>
-                <a class="text-blue-600 font-semibold mr-4" href="#">
+                <a class="text-blue-600 font-semibold mr-4" href="/login">
                     Login
                 </a>
-                <a class="bg-red-500 text-white px-4 py-2 rounded" href="#">
+                <a class="bg-red-500 text-white px-4 py-2 rounded" href="/signup">
                     Sign Up
                 </a>
             </div>
