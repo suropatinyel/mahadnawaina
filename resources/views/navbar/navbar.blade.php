@@ -18,7 +18,7 @@
                 <img alt="Logo of MTsN 4 Kota Malang" class="h-10 w-10" height="50" src="" width="50" />
                 <div class="ml-3">
                     <h1 class="text-sm font-bold text-green-700">
-                        MTsN 4 Kota Malang
+                        MTsN 2 Kota Malang
                     </h1>
                     <p class="text-xs text-orange-500">
                         Madrasah Tsanawiyah

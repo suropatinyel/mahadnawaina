@@ -24,6 +24,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/edit', function () {
     return view('edit');
 });
+Route::get('/cek', function () {
+    return view('template.admin.absensisantri');
+});
 
 // Protect pages (only accessible after login)
 Route::middleware(['auth'])->group(function () {
