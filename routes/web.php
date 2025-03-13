@@ -25,7 +25,7 @@ Route::get('/edit', function () {
     return view('edit');
 });
 Route::get('/cek', function () {
-    return view('template.admin.absensisantri');
+    return view('template.admin.pengumuman');
 });
 
 // Protect pages (only accessible after login)
