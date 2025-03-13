@@ -25,9 +25,11 @@
             </div>
             <div class="mb-4">
                 <label for="jenisPengumuman" class="block text-sm font-medium text-gray-700 mb-2">Jenis Pengumuman</label>
-                <div>
-                    <button type="button" class="btn btn-outline-primary px-4 py-2 mr-2">Internal</button>
-                    <button type="button" class="btn btn-outline-secondary px-4 py-2">Eksternal</button>
+                <div class="flex items-center">
+                    <input type="radio" name="jenisPengumuman" id="internal" class="mr-2 focus:ring-green-700" value="internal">
+                    <label for="internal" class="mr-4">Internal</label>
+                    <input type="radio" name="jenisPengumuman" id="eksternal" class="mr-2 focus:ring-green-700" value="eksternal">
+                    <label for="eksternal">Eksternal</label>
                 </div>
             </div>
             <div class="mb-6">
