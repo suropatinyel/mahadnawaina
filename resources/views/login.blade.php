@@ -16,7 +16,7 @@
         function dummyLogin(event) {
             event.preventDefault(); // Prevent actual form submission
             alert("Login successful!");
-            window.location.href = "/welcome"; // Redirect to the MAHAD website page
+            window.location.href = "/dashboard"; // Redirect to the MAHAD website page
         }
     </script>
 </head>
@@ -38,7 +38,7 @@
             <button type="submit" class="w-full bg-yellow-500 text-white font-bold py-2 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">Login</button>
         </form>
         <div class="mt-4 text-center">
-            <p class="text-gray-700">Belum punya akun? <a href="{{ route('signup') }}" class="text-green-700 font-semibold hover:underline">Daftar disini</a></p>
+            <p class="text-gray-700">Belum punya akun? <a href="{{ route('register') }}" class="text-green-700 font-semibold hover:underline">Daftar disini</a></p>
         </div>
     </div>
 </body>
