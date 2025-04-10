@@ -50,4 +50,14 @@ class santri extends Model
     {
         return $this->hasMany(Presensi::class);
     }
+    public function kamar()
+    {
+        return $this->belongsTo(kamar::class);
+    }
+    
+    public function kelas()
+    {
+        return $this->belongsTo(kelas::class);
+    }
+    
 }

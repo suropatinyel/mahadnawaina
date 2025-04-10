@@ -15,7 +15,7 @@ class santricontroller extends Controller
 {
     public function index()
     {
-        $santris = Santri::with(['user', 'santriDetail'])->get();
+        $santris = Santri::with(['user', 'santriDetail', 'kamar' , 'kamar'])->get();
         return view('santri.index', compact('santris'));
     }
     

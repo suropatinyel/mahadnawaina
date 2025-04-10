@@ -5,23 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class presensi extends Model
+class kelas extends Model
 {
     use HasFactory;
 
-    protected $table = 'presensis';
+    protected $table = 'kelas';
 
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'santri_id',
-        'tanggal',
-        'status',
-        'keterangan',
+        'id',
+        'nama',
+        'tingkat',
     ];
 
     public function santri()
     {
-        return $this->belongsTo(Santri::class);
+        return $this->belongsTo(Santri::class, 'santri_id');
     }
 }

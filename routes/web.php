@@ -6,6 +6,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UstadController;
 use App\Http\Controllers\SantriController;
 use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\KamarController;
+use App\Http\Controllers\KelasController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PetgsPembayaranControler;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -93,6 +96,14 @@ Route::middleware(['auth', 'role:admin|ustadz'])->group(function () {
     Route::get('/absensi/{id}/edit', [AbsensiController::class, 'edit'])->name('absensi.edit');
     Route::put('/absensi/{id}', [AbsensiController::class, 'update'])->name('absensi.update');
     Route::delete('/absensi/{id}', [AbsensiController::class, 'destroy'])->name('absensi.destroy');
+
+    Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
+    Route::get('/berita/create', [BeritaController::class, 'create'])->name('berita.create');
+    Route::post('/berita/store', [BeritaController::class, 'store'])->name('berita.store');
+    Route::get('/berita/{id}/edit', [BeritaController::class, 'edit'])->name('berita.edit');
+    Route::put('/berita/{id}', [BeritaController::class, 'update'])->name('berita.update');
+    Route::delete('/berita/{id}', [BeritaController::class, 'destroy'])->name('berita.destroy');
+    Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show');
 });
 
 // Route untuk menampilkan notifikasi verifikasi email
@@ -111,3 +122,18 @@ Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
     return back()->with('message', 'Link verifikasi telah dikirim ulang!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
+Route::get('/kamar', [KamarController::class, 'index'])->name('kamar.index');
+Route::get('/kamar/create', [KamarController::class, 'create'])->name('kamar.create');
+Route::post('/kamar/store', [KamarController::class, 'store'])->name('kamar.store');
+Route::get('/kamar/{id}/edit', [KamarController::class, 'edit'])->name('kamar.edit');
+Route::put('/kamar/{id}', [KamarController::class, 'update'])->name('kamar.update');
+Route::delete('/kamar/{id}', [KamarController::class, 'destroy'])->name('kamar.destroy');
+
+Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index');
+Route::get('/kelas/create', [kelasController::class, 'create'])->name('kelas.create');
+Route::post('/kelas/store', [kelasController::class, 'store'])->name('kelas.store');
+Route::get('/kelas/{id}/edit', [kelasController::class, 'edit'])->name('kelas.edit');
+Route::put('/kelas/{id}', [kelasController::class, 'update'])->name('kelas.update');
+Route::delete('/kelas/{id}', [kelasController::class, 'destroy'])->name('kelas.destroy');

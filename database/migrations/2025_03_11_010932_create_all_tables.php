@@ -7,14 +7,27 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up()
     {
-
+        
+        Schema::create('kamar', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama');
+            $table->timestamps();
+        });
+        
+        Schema::create('kelas', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama');
+            $table->enum('tingkat', [7, 8, 9]); // Sesuai dengan enum pada gambar
+            $table->timestamps();
+        });
            // Tabel Santri
         Schema::create('santris', function (Blueprint $table) {
             $table->id(); // santri_id
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('no_induk_santri')->unique();
             $table->string('nis')->unique();
-            $table->string('kelas_sekolah');
+            $table->foreignId('kelas_id')->constrained('kelas');
+            $table->foreignId('kamar_id')->constrained('kamar');
             $table->text('alamat');
             $table->date('tanggal_lahir');
             $table->string('no_hp', 15);
@@ -37,6 +50,7 @@ return new class extends Migration {
             $table->enum('status', ['aktif', 'tidak aktif'])->default('aktif');
             $table->timestamps();
         });
+
 
         // Tabel Ustadz
         Schema::create('ustadzs', function (Blueprint $table) {
@@ -88,6 +102,18 @@ return new class extends Migration {
             $table->text('keterangan')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('berita', function (Blueprint $table) {
+            $table->id(); // Ini akan membuat kolom 'id' sebagai primary key dan auto increment
+            $table->string('judul')->nullable(); // Kolom 'judul' dengan tipe VARCHAR dan bisa NULL
+            $table->text('isi')->nullable(); // Kolom 'isi' dengan tipe TEXT dan bisa NULL
+            $table->string('kategori'); // Kolom 'kategori' dengan tipe VARCHAR
+            $table->timestamp('tanggal_publikasi'); // Kolom 'tanggal_publikasi' dengan tipe TIMESTAMP
+            $table->string('penulis'); // Kolom 'penulis' dengan tipe VARCHAR
+            $table->binary('gambar'); // Kolom 'gambar' dengan tipe BINARY
+            $table->enum('status', ['draft', 'terbit'])->default('draft'); // Kolom 'status' dengan tipe ENUM dan default value 'draft'
+            $table->timestamps(); // Ini akan menambahkan kolom 'created_at' dan 'updated_at'
+        });
     }
 
     public function down()
@@ -100,5 +126,8 @@ return new class extends Migration {
         Schema::dropIfExists('santri_details');
         Schema::dropIfExists('santris');
         Schema::dropIfExists('users');
+        Schema::dropIfExists('berita');
+        Schema::dropIfExists('kamar');
+        Schema::dropIfExists('kelas');
     }
 };

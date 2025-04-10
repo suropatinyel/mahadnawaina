@@ -4,23 +4,78 @@ namespace App\Http\Controllers;
 
 use App\Models\presensi;
 use App\Models\santri;
+use App\Models\kamar;
+use App\Models\kelas;
 use Illuminate\Http\Request;
 
 class absensicontroller extends Controller
 {
   // 📌 Tampilkan daftar absensi
-  public function index()
+  public function index(Request $request)
   {
-      $absensis = presensi::with('santri')->get();
-      return view('absensi.index', compact('absensis'));
-  }
-
+      $tingkat = $request->input('tingkat');
+      $kelasSekolah = $request->input('kelas_sekolah');
+      $kamar = $request->input('kamar');
   
-  public function create()
+      $query = presensi::with('santri.user');
+  
+      if ($tingkat) {
+          $query->whereHas('santri.kelas', function ($q) use ($tingkat) {
+              $q->where('tingkat', $tingkat);
+          });
+      }
+  
+      if ($kelasSekolah) {
+          $query->whereHas('santri', function ($q) use ($kelasSekolah) {
+              $q->where('kelas_id', $kelasSekolah); // Pastikan filter berdasarkan ID
+          });
+      }
+  
+      if ($kamar) {
+          $query->whereHas('santri', function ($q) use ($kamar) {
+              $q->where('kamar_id', $kamar); // Filter berdasarkan ID kamar
+          });
+      }
+  
+      $absensis = $query->get();
+  
+      // Ambil pilihan filter
+      $kelasOptions = Kelas::pluck('nama', 'id');
+      $kamarOptions = Kamar::pluck('nama', 'id');
+      $tingkatOptions = Kelas::distinct()->pluck('tingkat');
+  
+      return view('absensi.index', compact('absensis', 'kelasOptions', 'kamarOptions', 'tingkatOptions'));
+  }
+  
+  
+  public function create(Request $request)
   {
-      $santris = Santri::all(); // Ambil semua santri
+      $tingkat = $request->input('tingkat');
+      $kelasId = $request->input('kelas_sekolah');
+      $kamarId = $request->input('kamar');
+  
+      $query = Santri::with('user');
+  
+      if ($tingkat) {
+          $query->whereHas('kelas', function ($q) use ($tingkat) {
+              $q->where('tingkat', $tingkat);
+          });
+      }
+  
+      if ($kelasId) {
+          $query->where('kelas_id', $kelasId);
+      }
+  
+      if ($kamarId) {
+          $query->where('kamar_id', $kamarId);
+      }
+  
+      $santris = $query->get();
+  
       return view('absensi.create', compact('santris'));
   }
+  
+
   
 
   public function store(Request $request)
