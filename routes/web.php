@@ -31,6 +31,12 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
+
 // Halaman dashboard (hanya bisa diakses jika sudah login dan terverifikasi)
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
@@ -47,7 +53,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/ustadz/store', [UstadController::class, 'store'])->name('ustadz.store');
     Route::get('/ustadz/{id}/edit', [UstadController::class, 'edit'])->name('ustadz.edit');
     Route::put('/ustadz/{id}', [UstadController::class, 'update'])->name('ustadz.update');
-    
+
     Route::get('/kamar', [KamarController::class, 'index'])->name('kamar.index');
     Route::get('/kamar/create', [KamarController::class, 'create'])->name('kamar.create');
     Route::post('/kamar/store', [KamarController::class, 'store'])->name('kamar.store');
