@@ -47,6 +47,20 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/ustadz/store', [UstadController::class, 'store'])->name('ustadz.store');
     Route::get('/ustadz/{id}/edit', [UstadController::class, 'edit'])->name('ustadz.edit');
     Route::put('/ustadz/{id}', [UstadController::class, 'update'])->name('ustadz.update');
+    
+    Route::get('/kamar', [KamarController::class, 'index'])->name('kamar.index');
+    Route::get('/kamar/create', [KamarController::class, 'create'])->name('kamar.create');
+    Route::post('/kamar/store', [KamarController::class, 'store'])->name('kamar.store');
+    Route::get('/kamar/{id}/edit', [KamarController::class, 'edit'])->name('kamar.edit');
+    Route::put('/kamar/{id}', [KamarController::class, 'update'])->name('kamar.update');
+    Route::delete('/kamar/{id}', [KamarController::class, 'destroy'])->name('kamar.destroy');
+    
+    Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index');
+    Route::get('/kelas/create', [kelasController::class, 'create'])->name('kelas.create');
+    Route::post('/kelas/store', [kelasController::class, 'store'])->name('kelas.store');
+    Route::get('/kelas/{id}/edit', [kelasController::class, 'edit'])->name('kelas.edit');
+    Route::put('/kelas/{id}', [kelasController::class, 'update'])->name('kelas.update');
+    Route::delete('/kelas/{id}', [kelasController::class, 'destroy'])->name('kelas.destroy');
     Route::delete('/ustadz/{id}', [UstadController::class, 'destroy'])->name('ustadz.destroy');
 });
 
@@ -123,17 +137,3 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Link verifikasi telah dikirim ulang!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-
-Route::get('/kamar', [KamarController::class, 'index'])->name('kamar.index');
-Route::get('/kamar/create', [KamarController::class, 'create'])->name('kamar.create');
-Route::post('/kamar/store', [KamarController::class, 'store'])->name('kamar.store');
-Route::get('/kamar/{id}/edit', [KamarController::class, 'edit'])->name('kamar.edit');
-Route::put('/kamar/{id}', [KamarController::class, 'update'])->name('kamar.update');
-Route::delete('/kamar/{id}', [KamarController::class, 'destroy'])->name('kamar.destroy');
-
-Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index');
-Route::get('/kelas/create', [kelasController::class, 'create'])->name('kelas.create');
-Route::post('/kelas/store', [kelasController::class, 'store'])->name('kelas.store');
-Route::get('/kelas/{id}/edit', [kelasController::class, 'edit'])->name('kelas.edit');
-Route::put('/kelas/{id}', [kelasController::class, 'update'])->name('kelas.update');
-Route::delete('/kelas/{id}', [kelasController::class, 'destroy'])->name('kelas.destroy');
