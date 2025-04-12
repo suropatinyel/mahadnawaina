@@ -28,8 +28,8 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::get('/login', [AuthController::class, 'showLogin'])->name('showlogin');
+Route::post('/aclogin', [AuthController::class, 'login'])->name('login');
 
 Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
@@ -38,7 +38,7 @@ Route::get('reset-password/{token}', [ResetPasswordController::class, 'showReset
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 // Halaman dashboard (hanya bisa diakses jika sudah login dan terverifikasi)
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
@@ -72,7 +72,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 // Routes untuk Santri (Semua pengguna yang login bisa melihat, tetapi hanya admin yang bisa edit/hapus)
 Route::middleware(['auth'])->group(function () {
-    Route::get('/santri', [SantriController::class, 'index'])->name('santri.index');
+    Route::get('/santri', [SantriController::class, 'index'])->name('template.santri.santrihome');
     Route::get('/santri/create', [SantriController::class, 'create'])->name('santri.create');
     Route::post('/santri/store', [SantriController::class, 'store'])->name('santri.store');
 
@@ -109,22 +109,23 @@ Route::middleware(['auth', 'role:petugas|admin|santri'])->group(function () {
 });
 
 // Routes untuk Absensi (Hanya Admin dan Ustadz yang bisa mengakses)
-Route::middleware(['auth', 'role:admin|ustadz'])->group(function () {
-    Route::get('/absensi', [AbsensiController::class, 'index'])->name('absensi.index');
-    Route::get('/absensi/create', [AbsensiController::class, 'create'])->name('absensi.create');
+// Route::middleware(['auth', 'role:admin,ustadz'])->group(function () {
+    Route::get('/absensi', [AbsensiController::class, 'index'])->name('template.ust.absensisantri');
+    Route::get('/absensi/create', [AbsensiController::class, 'create'])->name('template.ust.tambahpresensi');
     Route::post('/absensi/store', [AbsensiController::class, 'store'])->name('absensi.store');
     Route::get('/absensi/{id}/edit', [AbsensiController::class, 'edit'])->name('absensi.edit');
     Route::put('/absensi/{id}', [AbsensiController::class, 'update'])->name('absensi.update');
     Route::delete('/absensi/{id}', [AbsensiController::class, 'destroy'])->name('absensi.destroy');
 
-    Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
-    Route::get('/berita/create', [BeritaController::class, 'create'])->name('berita.create');
-    Route::post('/berita/store', [BeritaController::class, 'store'])->name('berita.store');
-    Route::get('/berita/{id}/edit', [BeritaController::class, 'edit'])->name('berita.edit');
-    Route::put('/berita/{id}', [BeritaController::class, 'update'])->name('berita.update');
-    Route::delete('/berita/{id}', [BeritaController::class, 'destroy'])->name('berita.destroy');
-    Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show');
-});
+// });
+
+Route::get('/berita', [BeritaController::class, 'index'])->name('template.admin.berita');
+Route::get('/berita/create', [BeritaController::class, 'create'])->name('berita.create');
+Route::post('/berita/store', [BeritaController::class, 'store'])->name('berita.store');
+Route::get('/berita/{id}/edit', [BeritaController::class, 'edit'])->name('berita.edit');
+Route::put('/berita/{id}', [BeritaController::class, 'update'])->name('berita.update');
+Route::delete('/berita/{id}', [BeritaController::class, 'destroy'])->name('berita.destroy');
+Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show');
 
 // Route untuk menampilkan notifikasi verifikasi email
 Route::get('/email/verify', function () {

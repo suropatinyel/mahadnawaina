@@ -10,7 +10,7 @@ class BeritaController extends Controller
 { public function index()
     {
         $beritas = Berita::latest()->get(); // Ambil semua data berita, diurutkan dari yang terbaru
-        return view('berita.index', compact('beritas')); // Tampilkan view dengan data berita
+        return view('template.admin.berita', compact('beritas')); // Tampilkan view dengan data berita
     }
 
     public function create()

@@ -8,7 +8,7 @@ use App\Models\kamar;
 use App\Models\kelas;
 use Illuminate\Http\Request;
 
-class absensicontroller extends Controller
+class Absensicontroller extends Controller
 {
   // 📌 Tampilkan daftar absensi
   public function index(Request $request)
@@ -44,7 +44,7 @@ class absensicontroller extends Controller
       $kamarOptions = Kamar::pluck('nama', 'id');
       $tingkatOptions = Kelas::distinct()->pluck('tingkat');
   
-      return view('absensi.index', compact('absensis', 'kelasOptions', 'kamarOptions', 'tingkatOptions'));
+      return view('template.admin.absensisantri', compact('absensis', 'kelasOptions', 'kamarOptions', 'tingkatOptions'));
   }
   
   
@@ -72,7 +72,7 @@ class absensicontroller extends Controller
   
       $santris = $query->get();
   
-      return view('absensi.create', compact('santris'));
+      return view('template.ust.tambahpresensi', compact('santris'));
   }
   
 

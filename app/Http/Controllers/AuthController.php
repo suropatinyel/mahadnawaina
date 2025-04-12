@@ -14,7 +14,7 @@ class AuthController extends Controller
     // Menampilkan halaman register
     public function showRegister()
     {
-        return view('auth.register');
+        return view('register');
     }
 
     // Proses registrasi
@@ -42,13 +42,13 @@ class AuthController extends Controller
     // Menampilkan halaman login
     public function showLogin()
     {
-        return view('auth.login');
+        return view('login');
     }
 
     // Proses login
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('name', 'password');
 
         if (Auth::attempt($credentials)) {
             return redirect('/dashboard');

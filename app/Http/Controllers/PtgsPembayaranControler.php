@@ -6,7 +6,7 @@ use App\Models\petugaspembayaran;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class PetgsPembayaranControler extends Controller
+class PtgsPembayaranControler extends Controller
 {
     public function index()
     {

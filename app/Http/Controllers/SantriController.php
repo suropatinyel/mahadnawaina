@@ -11,12 +11,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
-class santricontroller extends Controller
+class SantriController extends Controller
 {
     public function index()
     {
         $santris = Santri::with(['user', 'santriDetail', 'kamar' , 'kamar'])->get();
-        return view('santri.index', compact('santris'));
+        return view('template.santri.santrihome', compact('santris'));
     }
     
     
