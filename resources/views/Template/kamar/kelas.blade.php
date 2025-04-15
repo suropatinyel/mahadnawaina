@@ -1,62 +1,68 @@
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Kelas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
+<body class="bg-gray-100 p-6">
 
-<body class="bg-gray-100">
-    <div class="container mx-auto p-8">
-        <div class="flex items-center mb-8">
-            <img alt="School Logo" class="mr-4" height="50" src="" width="50" />
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
+        <!-- Header -->
+        <div class="flex items-center mb-6">
+            <img src="" alt="School Logo" class="h-12 w-12 mr-4">
             <div>
-                <h1 class="text-xl font-bold">Ma'Had Nawaina</h1>
-                <h2 class="text-orange-600">MTSN 2 Kota Malang</h2>
+                <h1 class="text-xl font-bold text-gray-800">Ma'Had Nawaina</h1>
+                <h2 class="text-sm text-orange-600">MTSN 2 Kota Malang</h2>
             </div>
         </div>
-        <div class="bg-white rounded-lg shadow-lg p-4">
-            <h1 class="text-2xl font-bold mb-4">Daftar Kelas</h1>
-            <a href="#" class="text-blue-600 mb-4 inline-block">Tambah Kelas</a>
-            <table class="min-w-full border-collapse">
-                <thead>
-                    <tr>
-                        <th class="border-b-2 border-gray-300 px-4 py-2 text-left">Nama</th>
-                        <th class="border-b-2 border-gray-300 px-4 py-2 text-left">Tingkat</th>
-                        <th class="border-b-2 border-gray-300 px-4 py-2 text-left">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="border-b border-gray-300 px-4 py-2">VII A</td>
-                        <td class="border-b border-gray-300 px-4 py-2">7</td>
-                        <td class="border-b border-gray-300 px-4 py-2">
-                            <a href="#" class="text-blue-600 mr-2">Edit</a>
-                            <button class="bg-gray-200 text-black px-2 py-1">Hapus</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border-b border-gray-300 px-4 py-2">VIII A</td>
-                        <td class="border-b border-gray-300 px-4 py-2">8</td>
-                        <td class="border-b border-gray-300 px-4 py-2">
-                            <a href="#" class="text-blue-600 mr-2">Edit</a>
-                            <button class="bg-gray-200 text-black px-2 py-1">Hapus</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border-b border-gray-300 px-4 py-2">IX A</td>
-                        <td class="border-b border-gray-300 px-4 py-2">9</td>
-                        <td class="border-b border-gray-300 px-4 py-2">
-                            <a href="#" class="text-blue-600 mr-2">Edit</a>
-                            <button class="bg-gray-200 text-black px-2 py-1">Hapus</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</body>
 
+        <!-- Judul dan Tombol -->
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-2xl font-bold text-green-700">Daftar Kelas</h1>
+            <a href="{{ route('template.kamar.kelasTambah') }}" class="bg-orange-500 hover:bg-orange-700 text-white px-4 py-2 rounded text-sm">+ Tambah Kelas</a>
+        </div>
+
+        <!-- Tabel -->
+        <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-300">
+    <thead>
+        <tr>
+            <th class="px-4 py-2 border-b">Nama</th>
+            <th class="px-4 py-2 border-b">Tingkat</th>
+            <th class="px-4 py-2 border-b">Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($kelass as $kelas)
+            <tr class="hover:bg-gray-50 text-center">
+                <td class="border-b px-4 py-2">{{ $kelas->nama }}</td>
+                <td class="border-b px-4 py-2">{{ $kelas->tingkat }}</td>
+                <td class="border-b px-4 py-2 space-x-2">
+                    <a href="{{ route('template.kamar.kelasEdit', $kelas->id) }}" class="text-blue-600 hover:underline">Edit</a>
+                    <form action="{{ route('kelas.destroy', $kelas->id) }}" method="POST" class="inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-100 text-red-600 px-2 py-1 rounded hover:bg-red-200 text-xs">Hapus</button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
+
+<!-- Menambahkan Link Pagination -->
+<div class="mt-4">
+    {{ $kelass->links() }}
+</div>
+
+<!-- Tombol Kembali -->
+<div class="flex justify-start mt-4">
+    <a href="{{ route('dashboar') }}" class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded">
+        Kembali
+    </a>
+</div>
+
+</body>
 </html>

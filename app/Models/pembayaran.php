@@ -17,8 +17,10 @@ class pembayaran extends Model
         'santri_id',
         'jumlah',
         'tanggal',
+        'bulan',
         'kode_transaksi',
         'status_pembayaran',
+        'metode_pembayaran',
     ];
 
     public function santri()
@@ -28,6 +30,6 @@ class pembayaran extends Model
 
     public function pembayaran_detail()
     {
-        return $this->hasOne(pembayaran_detal::class);
+        return $this->hasOne(pembayaran_detail::class);
     }
 }

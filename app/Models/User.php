@@ -12,13 +12,6 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -27,16 +20,16 @@ class User extends Authenticatable implements MustVerifyEmail
         'role',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    // Relasi
     public function santri()
     {
         return $this->hasOne(Santri::class, 'user_id');
@@ -47,17 +40,29 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Ustad::class, 'user_id');
     }
 
-      public function petugas_pembayaran()
+    public function petugas_pembayaran()
     {
-        return $this->hasOne(PetugasPembayaran::class, 'user_id');
+        return $this->hasOne(petugaspembayaran::class, 'user_id');
     }
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    // Role helper
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isPetugas()
+    {
+        return $this->role === 'petugas';
+    }
+
+    public function isSantri()
+    {
+        return $this->role === 'santri';
+    }
+
+    public function isUstadz()
+    {
+        return $this->role === 'ustadz';
+    }
 }

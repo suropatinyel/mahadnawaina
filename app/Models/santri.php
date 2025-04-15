@@ -16,8 +16,8 @@ class santri extends Model
         'no_induk_santri',
         'nis',
         'nama',
-        'kamar',
-        'kelas_sekolah',
+        'kamar_id',
+        'kelas_id',
         'alamat',
         'tanggal_lahir',
         'no_hp',
@@ -52,12 +52,12 @@ class santri extends Model
     }
     public function kamar()
     {
-        return $this->belongsTo(kamar::class);
+        return $this->belongsTo(kamar::class, 'kamar_id');
     }
     
     public function kelas()
     {
-        return $this->belongsTo(kelas::class);
+        return $this->belongsTo(kelas::class, 'kelas_id');
     }
     
 }

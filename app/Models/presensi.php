@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class presensi extends Model
+class Presensi extends Model
 {
     use HasFactory;
 
@@ -18,6 +18,10 @@ class presensi extends Model
         'tanggal',
         'status',
         'keterangan',
+    ];
+
+    protected $casts = [
+        'tanggal' => 'datetime',  // Menambahkan casting ke datetime
     ];
 
     public function santri()

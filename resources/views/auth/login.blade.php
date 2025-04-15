@@ -34,7 +34,7 @@
             </div>
             <div class="mb-8">
                 <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                <input type="text" name="password" class="mt-1 block w-full px-2 h-8 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-700">
+                <input type="password" name="password" class="mt-1 block w-full px-2 h-8 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-700">
             </div>
             <button type="submit" class="w-full bg-yellow-500 text-white font-bold py-2 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">Login</button>
         </form>

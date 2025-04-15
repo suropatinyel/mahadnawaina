@@ -10,17 +10,30 @@ use Illuminate\Support\Facades\Hash;
 class UstadController extends Controller
 {
     // Menampilkan daftar Ustad
-    public function index()
+    public function index(Request $request)
     {
-        $ustads = Ustad::with('user')->get();
-        return view('ustad.index', compact('ustads'));
-    }
+        $search = $request->search;
     
-
+        $query = Ustad::with('user')
+            ->when($search, function ($q) use ($search) {
+                $q->where(function ($q) use ($search) {
+                    $q->whereHas('user', function ($query) use ($search) {
+                        $query->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhere('alamat', 'like', "%{$search}%")
+                    ->orWhere('mata_pelajaran', 'like', "%{$search}%")
+                    ->orWhere('user_id', 'like', "%{$search}%");
+                });
+            });
+    
+        $ustads = $query->paginate(2);
+    
+        return view('template.admin.dataust', compact('ustads'));
+    }
     // Menampilkan form tambah Ustad
     public function create()
     {
-        return view('ustad.create');
+        return view('template.admin.ustadzTambah');
     }
 
     // Menyimpan data Ustad baru
@@ -41,7 +54,7 @@ class UstadController extends Controller
                 'ustadz_id' => $id,
                 'user_id' => $user->id, // Hubungkan ke user
                 'JK' => $request->input('JK'),
-                'No_Hp' => $request->input('No_Hp'),
+                'No_HP' => $request->input('No_HP'),
                 'alamat' => $request->input('alamat'),
                 'mata_pelajaran' => $request->input('mata_pelajaran'),
             ];
@@ -49,13 +62,13 @@ class UstadController extends Controller
         
             Ustad::create($data);
         
-            return redirect()->route('ustadz.index')->with('success', 'Data ustadz berhasil ditambahkan!');
+            return redirect()->route('template.admin.dataust')->with('success', 'Data ustadz berhasil ditambahkan!');
     }
     
     public function edit($id)
     {
         $ustadz = Ustad::findOrFail($id);
-        return view('ustad.edit', compact('ustadz'));
+        return view('template.admin.ustadzEdit', compact('ustadz'));
     }
     
     public function update(Request $request, $id)
@@ -73,7 +86,7 @@ class UstadController extends Controller
         // Update data ustadz
         $data = [
             'JK' => $request->input('JK'),
-            'No_Hp' => $request->input('No_Hp'),
+            'No_HP' => $request->input('No_HP'),
             'alamat' => $request->input('alamat'),
             'mata_pelajaran' => $request->input('mata_pelajaran'),
         ];
@@ -81,19 +94,28 @@ class UstadController extends Controller
     
         $ustadz->update($data);
     
-        return redirect()->route('ustadz.index')->with('success', 'Data ustadz berhasil diperbarui!');
+        return redirect()->route('template.admin.dataust')->with('success', 'Data ustadz berhasil diperbarui!');
     }
 
     public function destroy($id)
     {
-        $ustadz = Ustad::findOrFail($id);
-        $user = User::findOrFail($ustadz->user_id);
+        // Cari data ustadz berdasarkan user_id
+        $ustadz = Ustad::where('user_id', $id)->first();
     
-        // Hapus data ustadz dan user terkait
-        $ustadz->delete();
-        $user->delete();
+        // Cek jika data ditemukan
+        if ($ustadz) {
+            // Hapus data ustadz
+            $ustadz->delete();
     
-        return redirect()->route('ustadz.index')->with('success', 'Data ustadz berhasil dihapus!');
+            // Hapus data user terkait jika diperlukan
+            $user = User::find($id);
+            if ($user) {
+                $user->delete();
+            }
+    
+            return redirect()->route('template.admin.dataust')->with('success', 'Data ustadz berhasil dihapus');
+        }
+    
+        return redirect()->route('template.admin.dataust')->with('error', 'Data ustadz tidak ditemukan');
     }
-    
-}
+    }

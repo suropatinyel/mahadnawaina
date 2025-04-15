@@ -18,126 +18,63 @@
             <h1 class="text-2xl font-bold text-green-900 mb-4">
                 Data Ust/Us
             </h1>
-            <div class="flex items-center mb-4">
-                <input class="border rounded p-2 flex-1" placeholder="search" type="text" />
-                <button class="bg-orange-500 text-white rounded ml-2 px-4 py-2">
+          <div class="flex justify-between items-center mb-4">
+                <form method="GET" action="{{ route('template.admin.dataust') }}" class="flex w-full mr-4">
+                    <input type="text" name="search" class="border rounded p-2 w-full" placeholder="Cari nama, ID, alamat, atau bidang..." value="{{ request('search') }}" />
+                    <button type="submit" class="ml-2 px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">Cari</button>
+                </form>
+                <a href="{{ route('template.admin.ustadzTambah') }}" class=" whitespace-nowrap bg-orange-500 text-white text-lg  rounded px-4 py-2 mb-4 hover:bg-orange-700">
                     + Tambah Data
-                </button>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white">
-                    <thead>
-                        <tr>
-                            <th class="py-2 px-4 border-b">
-                                Nama Ust/Us
-                            </th>
-                            <th class="py-2 px-4 border-b">
-                                NIP
-                            </th>
-                            <th class="py-2 px-4 border-b">
-                                Bidang
-                            </th>
-                            <th class="py-2 px-4 border-b">
-                                Alamat
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="bg-gray-100">
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                        </tr>
-                        <tr class="bg-gray-100">
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                        </tr>
-                        <tr class="bg-yellow-300">
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                        </tr>
-                        <tr class="bg-gray-100">
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="flex justify-end mt-4">
-                <button class="bg-yellow-500 text-white rounded px-4 py-2 mr-2">
-                    <i class="fas fa-edit">
-                    </i>
-                </button>
-                <button class="bg-red-500 text-white rounded px-4 py-2">
-                    <i class="fas fa-trash">
-                    </i>
-                </button>
-            </div>
-        </div>
-    </div>
-</body>
+                </a>
+            </div>   
+         <div class="overflow-x-auto">
+    <table class="min-w-full bg-white">
+        <thead>
+            <tr>
+                <th class="py-2 px-4 border-b">ID</th>
+                <th class="py-2 px-4 border-b">Nama</th>
+                <th class="py-2 px-4 border-b">Bidang</th>
+                <th class="py-2 px-4 border-b">Alamat</th>
+                <th class="py-2 px-4 border-b">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($ustads as $ustadz)
+                <tr class="bg-gray-100 text-center">
+                    <td class="py-2 px-4 border-b">{{ $ustadz->user_id }}</td>
+                    <td class="py-2 px-4 border-b">{{ $ustadz->user->name ?? '-' }}</td>
+                    <td class="py-2 px-4 border-b">{{ $ustadz->mata_pelajaran }}</td>
+                    <td class="py-2 px-4 border-b">{{ $ustadz->alamat }}</td>
+                    <td class="py-2 px-4 border-b">
+                        <a href="{{ route('template.admin.ustadzEdit', ['id' => $ustadz->user_id]) }}" class="bg-green-700 text-white rounded px-4 py-2 mr-2 inline-block  hover:bg-green-900">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form action="{{ route('ustadz.destroy', ['id' => $ustadz->user_id]) }}" method="POST" class="inline-block">
+                            @csrf
+                            @method('DELETE')
+                            <form action="{{ route('ustadz.destroy', ['id' => $ustadz->user_id]) }}" method="POST" class="inline-block">
+                                @csrf
+                                @method('DELETE')
+                                <button class="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600" onclick="return confirm('Yakin ingin menghapus?')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+    <div class="mt-4 flex justify-between items-center">
+    <!-- Tombol kiri -->
+    <a href="{{ route('dashboard') }}" class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-900">
+        ← Kembali
+    </a>
 
+    <!-- Pagination kanan -->
+    <div>
+        {{ $ustads->withQueryString()->links() }}
+    </div>
+</div>
+</div>
 </html>
