@@ -65,46 +65,46 @@
         <!-- Activities Section -->
         <section class="bg-gray-200 py-12 px-6 rounded-lg ">
             <h2 class="text-center text-2xl font-bold mb-6">
-                KEGIATAN SANTRI
+                BERITA TERKINI MTsN 2 KOTA MALANG
             </h2>
             <p class="text-center text-gray-700 mb-12 text-xl">
-                Kegiatan santri di Ma'had Nawaina meliputi berbagai aktivitas yang mendukung pengembangan diri, baik dalam bidang akademik maupun non-akademik. Berikut adalah beberapa kegiatan yang dilakukan oleh santri kami:
+                Berita di Ma'had Nawaina meliputi berbagai aktivitas yang mendukung pengembangan diri, baik dalam bidang akademik maupun non-akademik.
             </p>
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3 ">
                 <div class="bg-white p-4 rounded-lg h-96 mx-10 shadow-md">
                     <img alt="Kegiatan 1" class="w-full h-40 object-cover rounded-lg mb-4" src="https://placehold.co/300x200" />
                     <h3 class="text-lg font-bold">
-                        Kegiatan 1
+                        Berita 1
                     </h3>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow-md bg-white p-4 rounded-lg h-96 mx-10 shadow-md">
                     <img alt="Kegiatan 2" class="w-full h-40 object-cover rounded-lg mb-4" src="https://placehold.co/300x200" />
                     <h3 class="text-lg font-bold">
-                        Kegiatan 2
+                        Berita 2
                     </h3>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow-md bg-white p-4 rounded-lg h-96 mx-10 shadow-md">
                     <img alt="Kegiatan 3" class="w-full h-40 object-cover rounded-lg mb-4" src="https://placehold.co/300x200" />
                     <h3 class="text-lg font-bold">
-                        Kegiatan 3
+                        Berita 3
                     </h3>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow-md bg-white p-4 rounded-lg h-96 mx-10 shadow-md">
                     <img alt="Kegiatan 4" class="w-full h-40 object-cover rounded-lg mb-4" src="https://placehold.co/300x200" />
                     <h3 class="text-lg font-bold">
-                        Kegiatan 4
+                        Berita 4
                     </h3>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow-md bg-white p-4 rounded-lg h-96 mx-10 shadow-md">
                     <img alt="Kegiatan 5" class="w-full h-40 object-cover rounded-lg mb-4" src="https://placehold.co/300x200" />
                     <h3 class="text-lg font-bold">
-                        Kegiatan 5
+                        Berita 5
                     </h3>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow-md bg-white p-4 rounded-lg h-96 mx-10 shadow-md">
                     <img alt="Kegiatan 6" class="w-full h-40 object-cover rounded-lg mb-4" src="https://placehold.co/300x200" />
                     <h3 class="text-lg font-bold">
-                        Kegiatan 6
+                        Berita 6
                     </h3>
                 </div>
             </div>
