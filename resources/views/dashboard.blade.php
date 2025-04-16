@@ -14,16 +14,23 @@
 <body class="bg-gray-100">
     <!-- Header -->
     <header class="bg-white shadow-md">
-    <div class="container mx-auto flex justify-between items-center py-4 px-6">
-        <div class="flex items-center">
-            <img alt="Logo" class="h-10 w-10" src="https://placehold.co/40x40" />
-            <div class="ml-4">
-                <h1 class="text-lg font-bold">
-                    Ma'had Nawaina
-                </h1>
-                <p class="text-sm text-gray-600">
-                    MTsN 2 Kota Malang
-                </p>
+        <div class="container mx-auto flex justify-between items-center py-4 px-6">
+            <div class="flex items-center">
+                <img alt="Logo" class="h-10 w-10" src="Logo.png" />
+                <div class="ml-4">
+                    <h1 class="text-lg font-bold">
+                        Ma'had Nawaina
+                    </h1>
+                    <p class="text-sm text-gray-600">
+                        MTsN 2 Kota Malang
+                    </p>
+                </div>
+            </div>
+            <div>
+                <form action="{{ route('logout') }}" method="POST" class="bg-red-500 text-white px-4 py-2 rounded">
+                    @csrf
+                    <button type="submit">Logout</button>
+                </form>
             </div>
         </div>
         <div class="flex space-x-4"> <!-- Menambahkan flex dan space-x-4 -->
@@ -38,7 +45,7 @@
 </header>
     <!-- Hero Section -->
     <section class="relative">
-        <iframe width="1530" height="600" src="https://www.youtube.com/embed/eFeTh_Qi64w?si=QFhZUktJmWcw1Rxo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <img src="{{ asset('SchoolBanner2.jpg') }}" alt="Your Image Description" width="1530" height="600" class="object-cover">
         <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div class="text-center text-white">
                 <h2 class="text-4xl font-bold">
