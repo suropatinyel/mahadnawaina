@@ -1,4 +1,5 @@
 <html>
+
 <head>
     <title>
         Ma'had Nawaina
@@ -8,7 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
 </head>
 
-<body class="bg-white text-gray-800"> //ora turu dawlawkdjiawjlcajldjc
+<body class="bg-white text-gray-800">
     <!-- Header Section -->
     <div class="relative">
         <img alt="Students studying in a classroom" class="w-full h-64 object-cover" height="200" src="https://storage.googleapis.com/a1aa/image/YO1xNPpKcfL7Vv_p9G9OtURo0R1P2_qe6u-NSo-qCXo.jpg" width="600" />
@@ -22,6 +23,18 @@
             <p class="text-white text-sm md:text-lg">
                 MTsN 2 Kota Malang
             </p>
+        </div>
+        <!-- Login and Logout Buttons -->
+        <div class="absolute top-4 right-4 flex space-x-4">
+            <a href="{{ route('login') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                Login
+            </a>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                    Logout
+                </button>
+            </form>
         </div>
     </div>
     <!-- Main Content Section -->
@@ -56,7 +69,7 @@
             <img alt="Portrait of Bpk. Arif Bahriar" class="rounded-lg" height="200" src="https://storage.googleapis.com/a1aa/image/dNNXaABm2EwKpO89JFILycsMH1vVwRhqFM91Gp3OHcs.jpg" width="150" />
         </div>
     </div>
-    <!-- Gallery Section --> 
+    <!-- Gallery Section -->
     <div class="py-8 px-4 md:px-16">
         <h2 class="text-center text-2xl md:text-3xl font-bold mb-4">
             Galeri Foto Aktivitas Ma'had Nawaina

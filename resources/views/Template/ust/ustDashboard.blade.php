@@ -30,6 +30,18 @@
                         </p>
                     </div>
                 </div>
+                <!-- Buttons -->
+                <div class="mt-6 flex justify-center space-x-4">
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                            Logout
+                        </button>
+                    </form>
+                    <a href="{{ route('login') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        Sign In
+                    </a>
+                </div>
             </div>
         </div>
     </div>

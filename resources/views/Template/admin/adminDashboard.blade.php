@@ -15,15 +15,29 @@
     <div class="flex">
         <!-- Main Content -->
         <div class="w-4/5 p-8">
-            <div class="flex items-center mb-8">
-                <img alt="School Logo" class="mr-4" height="50" src="https://storage.googleapis.com/a1aa/image/0ZxZmx8qAqbnb3SMsPR8VUXTjReHKV8eAkm3fIAOoGc.jpg" width="50" />
-                <div>
-                    <h1 class="text-xl font-bold">
-                        Ma'Had Nawaina
-                    </h1>
-                    <h2 class="text-orange-600">
-                        MTSN 2 Kota Malang
-                    </h2>
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center">
+                    <img alt="School Logo" class="mr-4" height="50" src="https://storage.googleapis.com/a1aa/image/0ZxZmx8qAqbnb3SMsPR8VUXTjReHKV8eAkm3fIAOoGc.jpg" width="50" />
+                    <div>
+                        <h1 class="text-xl font-bold">
+                            Ma'Had Nawaina
+                        </h1>
+                        <h2 class="text-orange-600">
+                            MTSN 2 Kota Malang
+                        </h2>
+                    </div>
+                </div>
+                <!-- Buttons -->
+                <div class="flex space-x-4">
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                            Logout
+                        </button>
+                    </form>
+                    <a href="{{ route('login') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        Sign In
+                    </a>
                 </div>
             </div>
             <div class="bg-white rounded-lg shadow-lg p-4">
