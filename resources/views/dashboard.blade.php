@@ -70,44 +70,25 @@
             <p class="text-center text-gray-700 mb-12 text-xl">
                 Berita di Ma'had Nawaina meliputi berbagai aktivitas yang mendukung pengembangan diri, baik dalam bidang akademik maupun non-akademik.
             </p>
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3 ">
-                <div class="bg-white p-4 rounded-lg h-96 mx-10 shadow-md">
-                    <img alt="Kegiatan 1" class="w-full h-40 object-cover rounded-lg mb-4" src="https://placehold.co/300x200" />
-                    <h3 class="text-lg font-bold">
-                        Berita 1
-                    </h3>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-md bg-white p-4 rounded-lg h-96 mx-10 shadow-md">
-                    <img alt="Kegiatan 2" class="w-full h-40 object-cover rounded-lg mb-4" src="https://placehold.co/300x200" />
-                    <h3 class="text-lg font-bold">
-                        Berita 2
-                    </h3>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-md bg-white p-4 rounded-lg h-96 mx-10 shadow-md">
-                    <img alt="Kegiatan 3" class="w-full h-40 object-cover rounded-lg mb-4" src="https://placehold.co/300x200" />
-                    <h3 class="text-lg font-bold">
-                        Berita 3
-                    </h3>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-md bg-white p-4 rounded-lg h-96 mx-10 shadow-md">
-                    <img alt="Kegiatan 4" class="w-full h-40 object-cover rounded-lg mb-4" src="https://placehold.co/300x200" />
-                    <h3 class="text-lg font-bold">
-                        Berita 4
-                    </h3>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-md bg-white p-4 rounded-lg h-96 mx-10 shadow-md">
-                    <img alt="Kegiatan 5" class="w-full h-40 object-cover rounded-lg mb-4" src="https://placehold.co/300x200" />
-                    <h3 class="text-lg font-bold">
-                        Berita 5
-                    </h3>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-md bg-white p-4 rounded-lg h-96 mx-10 shadow-md">
-                    <img alt="Kegiatan 6" class="w-full h-40 object-cover rounded-lg mb-4" src="https://placehold.co/300x200" />
-                    <h3 class="text-lg font-bold">
-                        Berita 6
-                    </h3>
-                </div>
-            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3">
+    @foreach ($beritas as $berita)
+        <div class="bg-white p-4 rounded-lg h-96 mx-10 shadow-md overflow-hidden">
+            <!-- Menampilkan gambar berita -->
+            <img alt="{{ $berita->judul }}" class="w-full h-40 object-cover rounded-lg mb-4" 
+                src="{{ Storage::url($berita->gambar) }}" />
+
+            <!-- Menampilkan judul berita -->
+            <h3 class="text-lg font-bold mb-2">
+                {{ $berita->judul }}
+            </h3>
+
+            <!-- Menampilkan isi berita secara ringkas -->
+            <p class="text-sm text-gray-700">
+                {{ \Illuminate\Support\Str::limit(strip_tags($berita->isi), 100, '...') }}
+            </p>
+        </div>
+    @endforeach
+</div>
         </section>
     </main>
     <!-- Navigation Section -->

@@ -108,9 +108,7 @@ return new class extends Migration {
             $table->id(); // Ini akan membuat kolom 'id' sebagai primary key dan auto increment
             $table->string('judul')->nullable(); // Kolom 'judul' dengan tipe VARCHAR dan bisa NULL
             $table->text('isi')->nullable(); // Kolom 'isi' dengan tipe TEXT dan bisa NULL
-            $table->string('kategori'); // Kolom 'kategori' dengan tipe VARCHAR
             $table->timestamp('tanggal_publikasi'); // Kolom 'tanggal_publikasi' dengan tipe TIMESTAMP
-            $table->string('penulis'); // Kolom 'penulis' dengan tipe VARCHAR
             $table->binary('gambar'); // Kolom 'gambar' dengan tipe BINARY
             $table->enum('status', ['draft', 'terbit'])->default('draft'); // Kolom 'status' dengan tipe ENUM dan default value 'draft'
             $table->timestamps(); // Ini akan menambahkan kolom 'created_at' dan 'updated_at'

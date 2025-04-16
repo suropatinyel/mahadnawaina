@@ -25,10 +25,21 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+/**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new \App\Notifications\VerifyEmailNotification);
+    }
+
+    
     // Relasi
     public function santri()
     {
@@ -65,4 +76,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->role === 'ustadz';
     }
+
+
+    
 }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\pembayaran;
-use App\Models\pembayaran_detail;
-use App\Models\santri;
+use App\Models\Pembayaran;
+use App\Models\Pembayaran_detail;
+use App\Models\Santri;
 use Illuminate\Http\Request;
 
 class PembayaranController extends Controller
@@ -24,29 +24,27 @@ class PembayaranController extends Controller
     
         return view('template.petugas.pembayaranSantri', compact('pembayarans'));
     }    
-    public function create()
+
+    public function create(Request $request)
     {
-        if (auth()->user()->isAdmin()) {
-            return redirect()->back()->with('error', 'Admin tidak dapat menambahkan pembayaran.');
-        }
-    
+        // Jika petugas
         if (auth()->user()->isPetugas()) {
-            $santris = Santri::with('user')->get();
-            return view('pembayaran.create', compact('santris'));
+            $santris = Santri::with('user')->get(); // Petugas bisa pilih santri
+            return view('template.petugas.santriTambahPembayaran', compact('santris'));
         }
     
+        // Jika santri
+        if (auth()->user()->isSantri()) {
+            $santri = auth()->user()->santri;
+            return view('template.santri.santriFoto', compact('santri'));
+        }
+    
+        // Selain itu tidak boleh akses
         abort(403);
     }
-    
-
-    public function store(Request $request)
+            public function store(Request $request)
     {
-        // Cek apakah user login adalah petugas
-        if (!auth()->user()->isPetugas()) {
-            abort(403, 'Anda tidak memiliki izin untuk menambah data pembayaran.');
-        }
-    
-        // Validasi Input
+        // Validasi inputan dari form
         $validatedData = $request->validate([
             'santri_id' => 'required|exists:santris,id',
             'jumlah' => 'numeric|min:0|max:99999999.99',
@@ -56,41 +54,38 @@ class PembayaranController extends Controller
             'bulan' => 'required|string',
             'keterangan' => 'nullable|string'
         ]);
-    
-        // Jika metode pembayaran cash, otomatis status lunas
+        
         if ($request->metode_pembayaran === 'cash') {
             $validatedData['status_pembayaran'] = 'lunas';
         }
-    
-        // Generate kode transaksi unik
+
         $validatedData['kode_transaksi'] = 'TRX-' . strtoupper(uniqid());
-    
-        // Simpan data pembayaran
+
+        // Menyimpan pembayaran
         $pembayaran = Pembayaran::create($validatedData);
-    
-        // Simpan detail
+
         $detailData = [
             'pembayaran_id' => $pembayaran->id,
-            'bulan_dibayar' => $request->input('bulan_dibayar'),
             'keterangan' => $request->input('keterangan'),
         ];
-    
+
         if ($request->hasFile('file_transaksi')) {
             $path = $request->file('file_transaksi')->store('transaksi', 'public');
             $detailData['file_transaksi'] = $path;
         }
-    
-        pembayaran_detail::create($detailData);
-    
+
+        // Menyimpan detail pembayaran
+        Pembayaran_detail::create($detailData);
+
         return redirect()->route('template.petugas.pembayaranSantri')->with('success', 'Pembayaran berhasil ditambahkan!');
     }
-            
+
     public function edit($id)
     {
-        $pembayaran = Pembayaran::findOrFail($id); // Ambil data pembayaran berdasarkan ID
+        $pembayaran = Pembayaran::findOrFail($id);
         $santris = Santri::with('user')->get(); // Ambil semua santri untuk dropdown
     
-        return view('pembayaran.update', compact('pembayaran', 'santris'));
+        return view('template.admin.pembayaranEdit', compact('pembayaran', 'santris'));
     }
 
     public function update(Request $request, $id)
@@ -112,7 +107,7 @@ class PembayaranController extends Controller
             'metode_pembayaran' => $request->metode_pembayaran,
         ]);
     
-        return redirect()->route('pembayaran.index')->with('success', 'Pembayaran berhasil diperbarui!');
+        return redirect()->route('template.petugas.pembayaranSantri')->with('success', 'Pembayaran berhasil diperbarui!');
     }
 
     public function destroy($id)
@@ -120,7 +115,6 @@ class PembayaranController extends Controller
         $pembayaran = Pembayaran::findOrFail($id);
         $pembayaran->delete();
     
-        return redirect()->route('pembayaran.index')->with('success', 'Pembayaran berhasil dihapus!');
+        return redirect()->route('template.petugas.pembayaranSantri')->with('success', 'Pembayaran berhasil dihapus!');
     }
-    
 }
