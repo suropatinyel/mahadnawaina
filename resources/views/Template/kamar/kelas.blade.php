@@ -59,7 +59,7 @@
 
 <!-- Tombol Kembali -->
 <div class="flex justify-start mt-4">
-    <a href="{{ route('dashboard') }}" class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded">
+    <a href="{{ route('adminDashboard') }}" class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded">
         Kembali
     </a>
 </div>

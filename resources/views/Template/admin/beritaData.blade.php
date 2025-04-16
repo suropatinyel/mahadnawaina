@@ -60,7 +60,7 @@
 
                 <!-- Tombol Hapus -->
 
-                <form action="{{ route('dashboard') }}" method="GET">
+                <form action="{{ route('adminDashboard') }}" method="GET">
                     <button type="submit"
                         class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
                         kembali

@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Auth\Events\Verified;
+use App\Models\User;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UstadController;
 use App\Http\Controllers\SantriController;
@@ -42,27 +44,27 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard',[BeritaController::class,'indexb'])->name('dashboard');
+    Route::get('/',[BeritaController::class,'indexb'])->name('dashboard');
 
     // Dashboard untuk admin
-Route::middleware(['role:admin'])->get('/admin/dashboard', function () {
+Route::middleware(['auth', 'verified', 'role:admin'])->get('/admin/dashboard', function () {
     return view('template.admin.adminDashboard');
-});
+})->name('adminDashboard');
 
 // Dashboard untuk santri
-Route::middleware(['role:santri'])->get('/santri/dashboard', function () {
+Route::middleware(['auth', 'verified', 'role:santri'])->get('/santri/dashboard', function () {
     return view('template.santri.santriDashboard');
-});
+})->name('santriDashboard');
 
 // Dashboard untuk ustad
-Route::middleware(['role:ustadz'])->get('/ustad/dashboard', function () {
+Route::middleware(['auth', 'verified', 'role:ustadz'])->get('/ustad/dashboard', function () {
     return view('template.ust.ustDashboard');
-});
+})->name('ustDashboard');
 
 // Dashboard untuk petugas
-Route::middleware(['role:petugas'])->get('/petugas/dashboard', function () {
+Route::middleware(['auth', 'verified', 'role:petugas'])->get('/petugas/dashboard', function () {
     return view('template.petugas.petugasDashboard');
-});
+})->name('petugasDashboard');
 
 
 // Menampilkan halaman verifikasi email
@@ -163,13 +165,36 @@ Route::get('/email/verify', function () {
     return view('auth.verify');
 })->middleware('auth')->name('verification.notice');
 
-// Route untuk menangani verifikasi email
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();  // Verifikasi dan update email_verified_at
-    
-    // Mengarahkan langsung ke dashboard setelah verifikasi
-    return redirect()->route('dashboard');
-})->middleware(['auth', 'signed'])->name('verification.verify');
+Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) {
+    $user = User::findOrFail($id);
+
+    // Check if hash valid
+    if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+        abort(403);
+    }
+
+    // Auto login
+    Auth::login($user);
+
+    // Mark email as verified
+    if (!$user->hasVerifiedEmail()) {
+        $user->markEmailAsVerified();
+        event(new Verified($user));
+    }
+
+    // Redirect ke dashboard sesuai role
+    if ($user->role === 'admin') {
+        return redirect()->route('adminDashboard');
+    } elseif ($user->role === 'petugas') {
+        return redirect()->route('petugasDashboard');
+    } elseif ($user->role === 'ustadz') {
+        return redirect('/ustad/dashboard');
+    } elseif ($user->role === 'santri') {
+        return redirect()->route('santriDashboard');
+    }
+
+    return redirect('/login');
+})->middleware(['signed'])->name('verification.verify');
 
 // Route untuk mengirim ulang email verifikasi
 Route::post('/email/verification-notification', function (Request $request) {

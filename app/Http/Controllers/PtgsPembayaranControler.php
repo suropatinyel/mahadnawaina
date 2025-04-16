@@ -8,12 +8,25 @@ use Illuminate\Http\Request;
 
 class PtgsPembayaranControler extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $petugas = PetugasPembayaran::with('user')->get();
+        $query = PetugasPembayaran::with('user');
+    
+        // Cek apakah ada query pencarian
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            // Filter berdasarkan nama petugas atau email
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('name', 'like', "%$search%")
+                  ->orWhere('email', 'like', "%$search%");
+            });
+        }
+    
+        // Ambil data dengan pagination
+        $petugas = $query->paginate(5);
         return view('template.admin.dataPetugas', compact('petugas'));
     }
-
+    
     public function create()
     {
         return view('template.admin.petugasTambah');

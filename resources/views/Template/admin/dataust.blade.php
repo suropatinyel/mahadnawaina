@@ -67,7 +67,7 @@
     </table>
     <div class="mt-4 flex justify-between items-center">
     <!-- Tombol kiri -->
-    <a href="{{ route('dashboard') }}" class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-900">
+    <a href="{{ route('adminDashboard') }}" class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-900">
         ← Kembali
     </a>
 

@@ -85,7 +85,7 @@
 
                 <div class="flex justify-between items-center mt-4">
                     <div>
-                        <a href="{{ route('dashboard') }}" class="bg-green-700 text-white text-sm rounded px-3 py-2 hover:bg-green-900">
+                        <a href="{{ route('adminDashboard') }}" class="bg-green-700 text-white text-sm rounded px-3 py-2 hover:bg-green-900">
                          Kembali
                         </a>
                     </div>

@@ -31,7 +31,7 @@ class Absensicontroller extends Controller
             });
         }
     
-        $absensis = $query->get();
+        $absensis = $query->paginate(10);
     
         // Ambil opsi filter kelas & kamar
         $kelasOptions = \App\Models\Kelas::pluck('nama', 'id');

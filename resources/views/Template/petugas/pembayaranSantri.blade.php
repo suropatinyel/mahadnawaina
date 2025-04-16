@@ -18,8 +18,8 @@
 
         <!-- Search Form & Add Payment Button -->
         <div class="mb-4 flex justify-between items-center">
-            <form method="GET" action="{{ route('template.petugas.santriTambahPembayaran') }}" class="flex items-center">
-                <input type="text" name="search" value="{{ request('search') }}"
+        <form method="GET" action="{{ route('template.petugas.pembayaranSantri') }}" class="flex items-center">
+        <input type="text" name="search" value="{{ request('search') }}"
                     class="border rounded px-4 py-2 w-72 focus:outline-none focus:ring focus:border-blue-300"
                     placeholder="Cari nama santri...">
                 <button type="submit"
@@ -28,10 +28,13 @@
                 </button>
             </form>
             
-            <a href="{{ route('template.petugas.santriTambahPembayaran') }}" 
-               class="bg-orange-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-orange-600 transition duration-200">
-                Tambah Pembayaran
-            </a>
+            <!-- Tombol tambah pembayaran hanya untuk selain admin -->
+            @if(auth()->user()->role !== 'admin')
+                    <a href="{{ route('template.petugas.santriTambahPembayaran') }}" 
+                    class="bg-orange-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-orange-600 transition duration-200">
+                        Tambah Pembayaran
+                    </a>
+                @endif
         </div>
 
         <!-- Table for Payment Data -->
@@ -103,12 +106,11 @@
 
         <!-- Pagination -->
         <div class="flex justify-between items-center mt-4">
-            <a href="{{ route('dashboard') }}" 
-               class="bg-green-700 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-900 transition duration-200">
-                Kembali
-            </a>
-        </div>
-
+                <a href="{{ auth()->user()->role === 'admin' ? route('adminDashboard') : route('petugasDashboard') }}" 
+                class="bg-green-700 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-900 transition duration-200">
+                    Kembali
+                </a>
+            </div>
         <!-- Pagination at the bottom right -->
         <div class="mt-3 flex justify-end">
             {{ $pembayarans->withQueryString()->links() }}

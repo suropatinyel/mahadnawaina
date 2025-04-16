@@ -42,43 +42,44 @@ class PembayaranController extends Controller
         // Selain itu tidak boleh akses
         abort(403);
     }
-            public function store(Request $request)
-    {
-        // Validasi inputan dari form
-        $validatedData = $request->validate([
-            'santri_id' => 'required|exists:santris,id',
-            'jumlah' => 'numeric|min:0|max:99999999.99',
-            'tanggal' => 'required|date',
-            'metode_pembayaran' => 'required|in:cash,transfer,qris,beasiswa',
-            'file_transaksi' => 'nullable|file|mimes:jpg,png,pdf|max:2048',
-            'bulan' => 'required|string',
-            'keterangan' => 'nullable|string'
-        ]);
-        
-        if ($request->metode_pembayaran === 'cash') {
-            $validatedData['status_pembayaran'] = 'lunas';
-        }
+public function store(Request $request)
+{
+    $validatedData = $request->validate([
+        'santri_id' => 'required|exists:santris,id',
+        'jumlah' => 'numeric|min:0|max:99999999.99',
+        'tanggal' => 'required|date',
+        'metode_pembayaran' => 'required|in:cash,transfer,qris,beasiswa',
+        'file_transaksi' => 'nullable|file|mimes:jpg,png,pdf|max:2048',
+        'bulan' => 'required|string',
+        'keterangan' => 'nullable|string'
+    ]);
 
-        $validatedData['kode_transaksi'] = 'TRX-' . strtoupper(uniqid());
+    if ($request->metode_pembayaran === 'cash') {
+        $validatedData['status_pembayaran'] = 'lunas';
+    }
 
-        // Menyimpan pembayaran
-        $pembayaran = Pembayaran::create($validatedData);
+    $validatedData['kode_transaksi'] = 'TRX-' . strtoupper(uniqid());
 
-        $detailData = [
-            'pembayaran_id' => $pembayaran->id,
-            'keterangan' => $request->input('keterangan'),
-        ];
+    $pembayaran = Pembayaran::create($validatedData);
 
-        if ($request->hasFile('file_transaksi')) {
-            $path = $request->file('file_transaksi')->store('transaksi', 'public');
-            $detailData['file_transaksi'] = $path;
-        }
+    $detailData = [
+        'pembayaran_id' => $pembayaran->id,
+        'keterangan' => $request->input('keterangan'),
+    ];
 
-        // Menyimpan detail pembayaran
-        Pembayaran_detail::create($detailData);
+    if ($request->hasFile('file_transaksi')) {
+        $path = $request->file('file_transaksi')->store('transaksi', 'public');
+        $detailData['file_transaksi'] = $path;
+    }
 
+    Pembayaran_detail::create($detailData);
+
+    if (auth()->user()->isPetugas()) {
         return redirect()->route('template.petugas.pembayaranSantri')->with('success', 'Pembayaran berhasil ditambahkan!');
     }
+
+    return back()->with('success', 'Pembayaran berhasil dikirim!');
+}
 
     public function edit($id)
     {
