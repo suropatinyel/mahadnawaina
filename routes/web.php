@@ -126,7 +126,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 });
 
 // Routes untuk Pembayaran (Petugas, Admin, dan Santri bisa melihat, tetapi hanya petugas/admin yang bisa edit/hapus)
-Route::middleware(['auth', 'role:petugas|admin|santri'])->group(function () {
+Route::middleware(['auth', 'role:petugas|admin'])->group(function () {
     Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('template.petugas.pembayaranSantri');
     Route::get('/pembayaran/create', [PembayaranController::class, 'create'])->name('template.petugas.santriTambahPembayaran');
     Route::post('/pembayaran/store', [PembayaranController::class, 'store'])->name('pembayaran.store');
@@ -138,6 +138,12 @@ Route::middleware(['auth', 'role:petugas|admin|santri'])->group(function () {
         Route::delete('/pembayaran/{id}', [PembayaranController::class, 'destroy'])->name('pembayaran.destroy');
     });
 });
+
+Route::middleware(['auth', 'role:santri'])->group(function () {
+    Route::get('/santri/pembayaran/tambah', [PembayaranController::class, 'create'])->name('template.santri.santriFoto');
+    Route::post('/santri/pembayaran/store', [PembayaranController::class, 'store'])->name('pembayaran.store');
+});
+
 
 // Routes untuk Absensi (Hanya Admin dan Ustadz yang bisa mengakses)
 Route::middleware(['auth', 'role:admin|ustadz'])->group(function () {
