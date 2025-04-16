@@ -46,10 +46,28 @@
                     <h1 class="text-3xl font-bold text-yellow-500">
                         SELAMAT DATANG ADMIN
                     </h1>
-                    <p class="text-white">
+                    <p class="text-gray-700">
                         Anda Berhasil Login sebagai Admin!
                     </p>
                 </div>
+            </div>
+            <!-- Action Buttons -->
+            <div class="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4">
+                <a href="{{ route('berita.index') }}" class="bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600">
+                    Berita
+                </a>
+                <a href="{{ route('santri.index') }}" class="bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600">
+                    Data Santri
+                </a>
+                <a href="{{ route('ustadz.index') }}" class="bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600">
+                    Data Ustadz
+                </a>
+                <a href="{{ route('petugas.index') }}" class="bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600">
+                    Data Petugas
+                </a>
+                <a href="{{ route('pembayaran.index') }}" class="bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600">
+                    Data Pembayaran
+                </a>
             </div>
         </div>
     </div>

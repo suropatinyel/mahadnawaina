@@ -51,6 +51,12 @@
                     </p>
                 </div>
             </div>
+            <!-- Action Buttons -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <a href="{{ route('pembayaran.index') }}" class="bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600">
+                    Data Pembayaran
+                </a>
+            </div>
         </div>
     </div>
 </body>
