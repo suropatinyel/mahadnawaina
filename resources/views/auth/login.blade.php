@@ -26,7 +26,7 @@
         <h1 class="text-3xl font-bold text-center text-green-700 mb-3">LOGIN</h1>
         <div class=" border-t-4 border-yellow-500 w-20 mx-auto"></div>
 
-        <form method="post" action="/aclogin">
+        <form method="post" action="{{ route('aclogin') }}">
             @csrf
             <div class=" mt-6 mb-3">
                 <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>

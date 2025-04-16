@@ -15,6 +15,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,17 +29,10 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 // Routes untuk register & login
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'register'])->name('register1');
 
-Route::get('/', function () {
-    if (Auth::check()) {
-        return redirect()->route('dashboard');
-    }
-    return redirect()->route('showlogin');
-});
-
-Route::get('/login', [AuthController::class, 'showLogin'])->name('showlogin');
-Route::post('/aclogin', [AuthController::class, 'login'])->name('login');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('auth.login');
+Route::post('/aclogin', [AuthController::class, 'login'])->name('aclogin');
 
 Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
@@ -46,16 +40,36 @@ Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkE
 Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
-// Halaman dashboard (hanya bisa diakses jika sudah login dan terverifikasi)
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
 
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard',[BeritaController::class,'indexb'])->name('dashboard');
+
+    // Dashboard untuk admin
+Route::middleware(['role:admin'])->get('/admin/dashboard', function () {
+    return view('template.admin.adminDashboard');
 });
 
-// Routes untuk Ustadz (Hanya Admin yang bisa mengakses)
+// Dashboard untuk santri
+Route::middleware(['role:santri'])->get('/santri/dashboard', function () {
+    return view('template.santri.santriDashboard');
+});
+
+// Dashboard untuk ustad
+Route::middleware(['role:ustadz'])->get('/ustad/dashboard', function () {
+    return view('template.ust.ustDashboard');
+});
+
+// Dashboard untuk petugas
+Route::middleware(['role:petugas'])->get('/petugas/dashboard', function () {
+    return view('template.petugas.petugasDashboard');
+});
+
+
+// Menampilkan halaman verifikasi email
+Route::get('/verify-email', [AuthController::class, 'showVerifyEmail'])->name('auth.verify');
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});// Routes untuk Ustadz (Hanya Admin yang bisa mengakses)
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/ustadz', [UstadController::class, 'index'])->name('template.admin.dataust');
     Route::get('/ustadz/create', [UstadController::class, 'create'])->name('template.admin.ustadzTambah');
@@ -95,12 +109,20 @@ Route::middleware(['auth'])->group(function () {
 
 // Routes untuk Petugas Pembayaran (Hanya Admin yang bisa mengakses)
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/petugas', [PtgsPembayaranControler::class, 'index'])->name('petugas.index');
-    Route::get('/petugas/create', [PtgsPembayaranControler::class, 'create'])->name('petugas.create');
+    Route::get('/petugas', [PtgsPembayaranControler::class, 'index'])->name('template.admin.dataPetugas');
+    Route::get('/petugas/create', [PtgsPembayaranControler::class, 'create'])->name('template.admin.petugasTambah');
     Route::post('/petugas/store', [PtgsPembayaranControler::class, 'store'])->name('petugas.store');
-    Route::get('/petugas/{id}/edit', [PtgsPembayaranControler::class, 'edit'])->name('petugas.edit');
+    Route::get('/petugas/{id}/edit', [PtgsPembayaranControler::class, 'edit'])->name('template.admin.petugasEdit');
     Route::put('/petugas/{id}', [PtgsPembayaranControler::class, 'update'])->name('petugas.update');
     Route::delete('/petugas/{id}', [PtgsPembayaranControler::class, 'destroy'])->name('petugas.destroy');
+
+    Route::get('/berita', [BeritaController::class, 'index'])->name('template.admin.beritaData');
+    Route::get('/berita/create', [BeritaController::class, 'create'])->name('template.admin.berita.create');
+    Route::post('/berita/store', [BeritaController::class, 'store'])->name('berita.store');
+    Route::get('/berita/{id}/edit', [BeritaController::class, 'edit'])->name('template.admin.beritaEdit');
+    Route::put('/berita/{id}', [BeritaController::class, 'update'])->name('berita.update');
+    Route::delete('/berita/{id}', [BeritaController::class, 'destroy'])->name('berita.destroy');
+    Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show');
 });
 
 // Routes untuk Pembayaran (Petugas, Admin, dan Santri bisa melihat, tetapi hanya petugas/admin yang bisa edit/hapus)
@@ -111,7 +133,7 @@ Route::middleware(['auth', 'role:petugas|admin|santri'])->group(function () {
 
     // Hanya petugas/admin yang bisa edit/hapus data pembayaran
     Route::middleware(['role:petugas|admin'])->group(function () {
-        Route::get('/pembayaran/{id}/edit', [PembayaranController::class, 'edit'])->name('pembayaran.edit');
+        Route::get('/pembayaran/{id}/edit', [PembayaranController::class, 'edit'])->name('template.admin.pembayaranEdit');
         Route::put('/pembayaran/{id}', [PembayaranController::class, 'update'])->name('pembayaran.update');
         Route::delete('/pembayaran/{id}', [PembayaranController::class, 'destroy'])->name('pembayaran.destroy');
     });
@@ -128,14 +150,8 @@ Route::middleware(['auth', 'role:admin|ustadz'])->group(function () {
 
 });
 
-Route::get('/berita', [BeritaController::class, 'index'])->name('template.admin.berita');
-Route::get('/berita/create', [BeritaController::class, 'create'])->name('berita.create');
-Route::post('/berita/store', [BeritaController::class, 'store'])->name('berita.store');
-Route::get('/berita/{id}/edit', [BeritaController::class, 'edit'])->name('berita.edit');
-Route::put('/berita/{id}', [BeritaController::class, 'update'])->name('berita.update');
-Route::delete('/berita/{id}', [BeritaController::class, 'destroy'])->name('berita.destroy');
-Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show');
 
+// Route untuk menampilkan notifikasi verifikasi email
 // Route untuk menampilkan notifikasi verifikasi email
 Route::get('/email/verify', function () {
     return view('auth.verify');
@@ -143,8 +159,10 @@ Route::get('/email/verify', function () {
 
 // Route untuk menangani verifikasi email
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-    return redirect('/dashboard');
+    $request->fulfill();  // Verifikasi dan update email_verified_at
+    
+    // Mengarahkan langsung ke dashboard setelah verifikasi
+    return redirect()->route('dashboard');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 // Route untuk mengirim ulang email verifikasi

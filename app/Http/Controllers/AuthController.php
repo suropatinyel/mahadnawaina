@@ -32,11 +32,11 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'role' => 'santri',
         ]);
-
+   
          // Kirim email verifikasi
          event(new Registered($user));
 
-        return redirect('/login')->with('success', 'Registrasi berhasil, silakan login.');
+        return redirect()->route('auth.login')->with('success', 'Registrasi berhasil, silakan login.');
     }
 
     // Menampilkan halaman login
@@ -46,21 +46,39 @@ class AuthController extends Controller
     }
 
     // Proses login
-    public function login(Request $request)
-    {
-        $credentials = $request->only('name', 'password');
+// Proses login
+public function login(Request $request)
+{
+    $credentials = $request->only('name', 'password');
 
-        if (Auth::attempt($credentials)) {
-            return redirect('/dashboard');
+    if (Auth::attempt($credentials)) {
+        $user = Auth::user();
+
+        if ($user->role === 'admin') {
+            return redirect('/admin/dashboard');
+        } elseif ($user->role === 'santri') {
+            return redirect('/santri/dashboard');
+        } elseif ($user->role === 'ustadz') {
+            return redirect('/ustad/dashboard');
+        } elseif ($user->role === 'petugas') {
+            return redirect('/petugas/dashboard');
         }
 
-        return back()->withErrors(['email' => 'Email atau password salah']);
+        return redirect('/');
     }
 
+    return back()->withErrors(['email' => 'Email atau password salah']);
+}
     // Logout
     public function logout()
     {
         Auth::logout();
-        return redirect('/login')->with('success', 'Logout berhasil.');
+        return redirect()->route('auth.login')->with('success', 'Logout berhasil.');
     }
+
+    public function showVerifyEmail()
+{
+    return view('auth.verify'); // Tampilkan halaman verifikasi email
+}
+
 }

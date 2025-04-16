@@ -90,7 +90,7 @@ class PembayaranController extends Controller
         $pembayaran = Pembayaran::findOrFail($id); // Ambil data pembayaran berdasarkan ID
         $santris = Santri::with('user')->get(); // Ambil semua santri untuk dropdown
     
-        return view('pembayaran.update', compact('pembayaran', 'santris'));
+        return view('template.admin.pembayaranEdit', compact('pembayaran', 'santris'));
     }
 
     public function update(Request $request, $id)
@@ -112,7 +112,7 @@ class PembayaranController extends Controller
             'metode_pembayaran' => $request->metode_pembayaran,
         ]);
     
-        return redirect()->route('pembayaran.index')->with('success', 'Pembayaran berhasil diperbarui!');
+        return redirect()->route('template.petugas.pembayaranSantri')->with('success', 'Pembayaran berhasil diperbarui!');
     }
 
     public function destroy($id)
@@ -120,7 +120,7 @@ class PembayaranController extends Controller
         $pembayaran = Pembayaran::findOrFail($id);
         $pembayaran->delete();
     
-        return redirect()->route('pembayaran.index')->with('success', 'Pembayaran berhasil dihapus!');
+        return redirect()->route('template.petugas.pembayaranSantri')->with('success', 'Pembayaran berhasil dihapus!');
     }
     
 }

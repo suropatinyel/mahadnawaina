@@ -79,7 +79,7 @@
                         @if(auth()->user()->role === 'admin')
                         <td class=" text-base space-x-2 text-center">
                             <!-- Edit Button -->
-                            <a href="{{ route('pembayaran.edit', $pembayaran->id) }}" 
+                            <a href="{{ route('template.admin.pembayaranEdit', $pembayaran->id) }}" 
                             class="text-black hover:text-green-800 px-3 py-1 rounded text-xs">
                                 Edit
                             </a>

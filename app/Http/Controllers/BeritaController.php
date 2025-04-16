@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Storage;
 class BeritaController extends Controller
 { public function index()
     {
-        $beritas = Berita::latest()->get(); // Ambil semua data berita, diurutkan dari yang terbaru
-        return view('template.admin.berita', compact('beritas')); // Tampilkan view dengan data berita
+        $beritas = Berita::latest()->paginate(5); // Ambil semua data berita, diurutkan dari yang terbaru
+        return view('template.admin.beritaData', compact('beritas')); // Tampilkan view dengan data berita
     }
 
     public function create()
     {
-        return view('berita.create'); // Tampilkan form create
+        return view('template.admin.berita'); // Tampilkan form create
     }
 
     public function store(Request $request)
@@ -24,9 +24,7 @@ class BeritaController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'isi' => 'required|string',
-            'kategori' => 'required|string|max:255',
             'tanggal_publikasi' => 'required|date',
-            'penulis' => 'required|string|max:255',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi untuk file gambar
             'status' => 'required|in:draft,terbit',
         ]);
@@ -41,38 +39,33 @@ class BeritaController extends Controller
         Berita::create([
             'judul' => $request->judul,
             'isi' => $request->isi,
-            'kategori' => $request->kategori,
             'tanggal_publikasi' => $request->tanggal_publikasi,
-            'penulis' => $request->penulis,
             'gambar' => $gambarPath,
             'status' => $request->status,
         ]);
 
-        return redirect()->route('berita.index')->with('success', 'Berita berhasil ditambahkan!');
+        return redirect()->route('template.admin.berita.create')->with('success', 'Berita berhasil ditambahkan!');
     }
 
     public function show($id)
     {
         $berita = Berita::findOrFail($id); // Ambil data berita berdasarkan ID
-        return view('berita.show', compact('berita')); // Tampilkan view detail
+        return view('template.admin.berita', compact('berita')); // Tampilkan view detail
     }
 
     public function edit($id)
     {
-        $berita = Berita::findOrFail($id); // Ambil data berita berdasarkan ID
-        return view('berita.edit', compact('berita')); // Tampilkan form edit
+        $beritas = Berita::findOrFail($id);
+        return view('template.admin.beritaEdit', compact('beritas'));
     }
-
-    public function update(Request $request, $id)
+        public function update(Request $request, $id)
     {
         // Validasi input
         $request->validate([
             'judul' => 'required|string|max:255',
             'isi' => 'required|string',
-            'kategori' => 'required|string|max:255',
             'tanggal_publikasi' => 'required|date',
-            'penulis' => 'required|string|max:255',
-            'gambar' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048', // Contoh validasi untuk file gambar
+            'gambar' => 'nullable|file|mimes:jpeg,png,jpg,gif', // Contoh validasi untuk file gambar
             'status' => 'required|in:draft,terbit',
         ]);
 
@@ -92,25 +85,29 @@ class BeritaController extends Controller
         $berita->update([
             'judul' => $request->judul,
             'isi' => $request->isi,
-            'kategori' => $request->kategori,
             'tanggal_publikasi' => $request->tanggal_publikasi,
-            'penulis' => $request->penulis,
             'status' => $request->status,
         ]);
 
-        return redirect()->route('berita.index')->with('success', 'Berita berhasil diperbarui!');
+        return redirect()->route('template.admin.beritaData')->with('success', 'Berita berhasil diperbarui!');
     }
 
     public function destroy($id)
     {
-        $berita = Berita::findOrFail($id); // Ambil data berita berdasarkan ID
+        $beritas = Berita::findOrFail($id); // Ambil data berita berdasarkan ID
 
         // Hapus gambar jika ada
-        if ($berita->gambar) {
-            Storage::delete($berita->gambar);
+        if ($beritas->gambar) {
+            Storage::delete($beritas->gambar);
         }
 
-        $berita->delete(); // Hapus data berita
-        return redirect()->route('berita.index')->with('success', 'Berita berhasil dihapus!');
+        $beritas->delete(); // Hapus data berita
+        return redirect()->route('template.admin.beritaData')->with('success', 'Berita berhasil dihapus!');
+    }
+
+    public function indexb()
+    {
+        $beritas = Berita::latest()->get(); // OK
+        return view('dashboard', compact('beritas')); // OK
     }
 }

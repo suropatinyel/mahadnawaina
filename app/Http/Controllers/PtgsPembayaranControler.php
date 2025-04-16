@@ -11,12 +11,12 @@ class PtgsPembayaranControler extends Controller
     public function index()
     {
         $petugas = PetugasPembayaran::with('user')->get();
-        return view('petugas.index', compact('petugas'));
+        return view('template.admin.dataPetugas', compact('petugas'));
     }
 
     public function create()
     {
-        return view('petugas.create');
+        return view('template.admin.petugasTambah');
     }
     public function store(Request $request)
     {
@@ -44,13 +44,13 @@ class PtgsPembayaranControler extends Controller
             'no_hp' => $request->input('no_hp'),
         ]);
     
-        return redirect()->route('petugas.index')->with('success', 'Petugas berhasil ditambahkan!');
+        return redirect()->route('template.admin.dataPetugas')->with('success', 'Petugas berhasil ditambahkan!');
     }
 
     public function edit($id)
     {
         $petugas = PetugasPembayaran::findOrFail($id);
-        return view('petugas.update', compact('petugas'));
+        return view('template.admin.petugasEdit', compact('petugas'));
     }
 
     public function update(Request $request, $id)
@@ -81,7 +81,7 @@ class PtgsPembayaranControler extends Controller
             'no_hp' => $request->input('no_hp'),
         ]);
     
-        return redirect()->route('petugas.index')->with('success', 'Data Petugas berhasil diperbarui!');
+        return redirect()->route('template.admin.dataPetugas')->with('success', 'Data Petugas berhasil diperbarui!');
     }
     
     public function destroy($id)
@@ -96,7 +96,7 @@ class PtgsPembayaranControler extends Controller
         // Hapus petugas
         $petugas->delete();
     
-        return redirect()->route('petugas.index')->with('success', 'Petugas berhasil dihapus!');
+        return redirect()->route('template.admin.dataPetugas')->with('success', 'Petugas berhasil dihapus!');
     }
     
     
