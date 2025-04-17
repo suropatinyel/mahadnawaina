@@ -43,7 +43,7 @@ Route::get('reset-password/{token}', [ResetPasswordController::class, 'showReset
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 
-Route::middleware(['auth'])->group(function () {
+    Route::middleware(['auth'])->group(function () {
     Route::get('/',[BeritaController::class,'indexb'])->name('dashboard');
 
     // Dashboard untuk admin
@@ -117,6 +117,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/petugas/{id}/edit', [PtgsPembayaranControler::class, 'edit'])->name('template.admin.petugasEdit');
     Route::put('/petugas/{id}', [PtgsPembayaranControler::class, 'update'])->name('petugas.update');
     Route::delete('/petugas/{id}', [PtgsPembayaranControler::class, 'destroy'])->name('petugas.destroy');
+    
 
     Route::get('/berita', [BeritaController::class, 'index'])->name('template.admin.beritaData');
     Route::get('/berita/create', [BeritaController::class, 'create'])->name('template.admin.berita.create');
@@ -129,6 +130,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 // Routes untuk Pembayaran (Petugas, Admin, dan Santri bisa melihat, tetapi hanya petugas/admin yang bisa edit/hapus)
 Route::middleware(['auth', 'role:petugas|admin'])->group(function () {
+    Route::patch('/pembayaran/{id}/status', [PembayaranController::class, 'updateStatus'])->name('pembayaran.updateStatus');
     Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('template.petugas.pembayaranSantri');
     Route::get('/pembayaran/create', [PembayaranController::class, 'create'])->name('template.petugas.santriTambahPembayaran');
     Route::post('/pembayaran/store', [PembayaranController::class, 'store'])->name('pembayaran.store');
@@ -155,11 +157,10 @@ Route::middleware(['auth', 'role:admin|ustadz'])->group(function () {
     Route::get('/absensi/{id}/edit', [AbsensiController::class, 'edit'])->name('absensi.edit');
     Route::put('/absensi/{id}', [AbsensiController::class, 'update'])->name('absensi.update');
     Route::delete('/absensi/{id}', [AbsensiController::class, 'destroy'])->name('absensi.destroy');
-
+    Route::get('/absensi/rekap', [AbsensiController::class, 'rekap'])->name('absensi.rekap');
 });
 
 
-// Route untuk menampilkan notifikasi verifikasi email
 // Route untuk menampilkan notifikasi verifikasi email
 Route::get('/email/verify', function () {
     return view('auth.verify');

@@ -29,7 +29,17 @@ class PembayaranController extends Controller
     {
         // Jika petugas
         if (auth()->user()->isPetugas()) {
-            $santris = Santri::with('user')->get(); // Petugas bisa pilih santri
+            $search = $request->input('search');
+    
+            // Ambil data santri yang cocok dengan pencarian
+            $santris = Santri::with('user')
+                ->when($search, function ($query, $search) {
+                    $query->whereHas('user', function ($q) use ($search) {
+                        $q->where('name', 'like', '%' . $search . '%');
+                    });
+                })
+                ->get();
+    
             return view('template.petugas.santriTambahPembayaran', compact('santris'));
         }
     
@@ -42,44 +52,48 @@ class PembayaranController extends Controller
         // Selain itu tidak boleh akses
         abort(403);
     }
-public function store(Request $request)
-{
-    $validatedData = $request->validate([
-        'santri_id' => 'required|exists:santris,id',
-        'jumlah' => 'numeric|min:0|max:99999999.99',
-        'tanggal' => 'required|date',
-        'metode_pembayaran' => 'required|in:cash,transfer,qris,beasiswa',
-        'file_transaksi' => 'nullable|file|mimes:jpg,png,pdf|max:2048',
-        'bulan' => 'required|string',
-        'keterangan' => 'nullable|string'
-    ]);
+    
 
-    if ($request->metode_pembayaran === 'cash') {
-        $validatedData['status_pembayaran'] = 'lunas';
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'santri_id' => 'required|exists:santris,id',
+            'jumlah' => 'numeric|min:0|max:99999999.99',
+            'tanggal' => 'required|date',
+            'metode_pembayaran' => 'required|in:cash,transfer,qris,beasiswa',
+            'file_transaksi' => 'nullable|file|mimes:jpg,png,pdf|max:2048',
+            'bulan' => 'required|string',
+            'keterangan' => 'nullable|string'
+        ]);
+
+        if ($request->metode_pembayaran === 'cash') {
+            $validatedData['status_pembayaran'] = 'lunas';
+        } else {
+            $validatedData['status_pembayaran'] = 'pending';
+        }
+
+        $validatedData['kode_transaksi'] = 'TRX-' . strtoupper(uniqid());
+
+        $pembayaran = Pembayaran::create($validatedData);
+
+        $detailData = [
+            'pembayaran_id' => $pembayaran->id,
+            'keterangan' => $request->input('keterangan'),
+        ];
+
+        if ($request->hasFile('file_transaksi')) {
+            $path = $request->file('file_transaksi')->store('transaksi', 'public');
+            $detailData['file_transaksi'] = $path;
+        }
+
+        Pembayaran_detail::create($detailData);
+
+        if (auth()->user()->isPetugas()) {
+            return redirect()->route('template.petugas.pembayaranSantri')->with('success', 'Pembayaran berhasil ditambahkan!');
+        }
+
+        return back()->with('success', 'Pembayaran berhasil dikirim!');
     }
-
-    $validatedData['kode_transaksi'] = 'TRX-' . strtoupper(uniqid());
-
-    $pembayaran = Pembayaran::create($validatedData);
-
-    $detailData = [
-        'pembayaran_id' => $pembayaran->id,
-        'keterangan' => $request->input('keterangan'),
-    ];
-
-    if ($request->hasFile('file_transaksi')) {
-        $path = $request->file('file_transaksi')->store('transaksi', 'public');
-        $detailData['file_transaksi'] = $path;
-    }
-
-    Pembayaran_detail::create($detailData);
-
-    if (auth()->user()->isPetugas()) {
-        return redirect()->route('template.petugas.pembayaranSantri')->with('success', 'Pembayaran berhasil ditambahkan!');
-    }
-
-    return back()->with('success', 'Pembayaran berhasil dikirim!');
-}
 
     public function edit($id)
     {
@@ -117,5 +131,18 @@ public function store(Request $request)
         $pembayaran->delete();
     
         return redirect()->route('template.petugas.pembayaranSantri')->with('success', 'Pembayaran berhasil dihapus!');
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status_pembayaran' => 'required|in:pending,lunas,gagal',
+        ]);
+
+        $pembayaran = Pembayaran::findOrFail($id);
+        $pembayaran->status_pembayaran = $request->status_pembayaran;
+        $pembayaran->save();
+
+        return redirect()->back()->with('success', 'Status pembayaran berhasil diperbarui.');
     }
 }

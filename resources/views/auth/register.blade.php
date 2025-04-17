@@ -9,36 +9,48 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 
-<body class="flex items-center justify-center min-h-screen" style="background-color: #3B6725D6;">
+<body class="flex items-center justify-center min-h-screen bg-green-100">
+
+    <!-- Container for the login form -->
     <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+
+        <!-- Title Section -->
         <h1 class="text-center text-2xl font-bold text-green-700 mb-4">SIGN IN</h1>
         <div class="border-t-4 border-yellow-500 w-16 mx-auto mb-6"></div>
+
+        <!-- Registration Form -->
         <form method="POST" action="{{ route('register1') }}">
             @csrf
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Username <span class="text-red-500">*</span></label>
                 <input type="text" name="name" class="mt-1 block w-full px-2 h-10 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-700" required>
             </div>
+
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Email <span class="text-red-500">*</span></label>
                 <input type="email" name="email" class="mt-1 block w-full px-2 h-10 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-700" required>
             </div>
+
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Password <span class="text-red-500">*</span></label>
                 <input type="password" name="password" class="mt-1 block w-full px-2 h-10 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-700" required>
             </div>
+
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Confirmed Password <span class="text-red-500">*</span></label>
+                <label class="block text-sm font-medium text-gray-700">Confirm Password <span class="text-red-500">*</span></label>
                 <input type="password" name="password_confirmation" class="mt-1 block w-full px-2 h-10 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-700" required>
             </div>
+
             <div>
-                <button type="submit" class="w-full mt-3 bg-yellow-500 text-white py-2 rounded-md shadow-sm hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">register</button>
+                <button type="submit" class="w-full mt-3 bg-yellow-500 text-white py-2 rounded-md shadow-sm hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">Register</button>
             </div>
+
             <div class="mt-4">
-                <p class="text-right text-sm italic text-gray-700">Sudah punya akun? <a href="/login" class="text-green-700 hover:underline">Login</a></p>
+                <p class="text-right text-sm italic text-gray-700">Already have an account? <a href="/login" class="text-green-700 hover:underline">Login</a></p>
             </div>
         </form>
 
+        <!-- Display Validation Errors -->
         @if($errors->any())
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
             <ul>
@@ -49,6 +61,7 @@
         </div>
         @endif
     </div>
+
 </body>
 
 </html>

@@ -19,22 +19,26 @@
                 </ul>
             </div>
         @endif
+        <!-- Form pencarian -->
+        <form method="GET" action="{{ route('template.petugas.santriTambahPembayaran') }}" class="mb-4 ">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama santri..." class="border p-2 rounded w-1/2">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded ml-2">Cari</button>
+        </form>
+
+        <!-- Dropdown nama santri -->
+        <select name="santri_id" class="w-full border border-gray-300 rounded p-2 mb-4">
+            <option value="">-- Pilih Santri --</option>
+            @foreach($santris as $santri)
+                <option value="{{ $santri->id }}" {{ old('santri_id') == $santri->id ? 'selected' : '' }}>
+                    {{ $santri->user->name }}
+                </option>
+            @endforeach
+        </select>
+
+
 
         <form action="{{ route('pembayaran.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
             @csrf
-
-            <!-- Pilih Santri -->
-            <div>
-                <label class="block text-sm font-semibold mb-1">Nama Santri</label>
-                <select name="santri_id" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">-- Pilih Santri --</option>
-                    @foreach($santris as $santri)
-                        <option value="{{ $santri->id }}" {{ old('santri_id') == $santri->id ? 'selected' : '' }}>
-                            {{ $santri->user->name ?? 'Nama tidak ditemukan' }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
 
             <!-- Jumlah -->
             <div>

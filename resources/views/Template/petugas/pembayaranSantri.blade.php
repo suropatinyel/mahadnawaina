@@ -11,30 +11,17 @@
         <h1 class="text-2xl font-bold text-green-700 mb-6">Data Pembayaran Santri</h1>
 
         @if(session('success'))
-            <div class="bg-green-100 text-green-700 p-4 mb-4 rounded">
+            <div class="bg-green-100 text-green-700 p-4 mb-4 rounded transition duration-300 ease-in-out">
                 {{ session('success') }}
             </div>
         @endif
-
-        <!-- Search Form & Add Payment Button -->
-        <div class="mb-4 flex justify-between items-center">
-        <form method="GET" action="{{ route('template.petugas.pembayaranSantri') }}" class="flex items-center">
-        <input type="text" name="search" value="{{ request('search') }}"
-                    class="border rounded px-4 py-2 w-72 focus:outline-none focus:ring focus:border-blue-300"
-                    placeholder="Cari nama santri...">
-                <button type="submit"
-                        class="ml-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">
-                    Cari
-                </button>
-            </form>
             
-            <!-- Tombol tambah pembayaran hanya untuk selain admin -->
             @if(auth()->user()->role !== 'admin')
-                    <a href="{{ route('template.petugas.santriTambahPembayaran') }}" 
+                <a href="{{ route('template.petugas.santriTambahPembayaran') }}" 
                     class="bg-orange-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-orange-600 transition duration-200">
-                        Tambah Pembayaran
-                    </a>
-                @endif
+                    Tambah Pembayaran
+                </a>
+            @endif
         </div>
 
         <!-- Table for Payment Data -->
@@ -68,7 +55,25 @@
                         <td class="p-3 border">Rp {{ number_format($pembayaran->jumlah, 0, ',', '.') }}</td>
                         <td class="p-3 border">{{ $pembayaran->kode_transaksi }}</td>
                         <td class="p-3 border capitalize">{{ $pembayaran->metode_pembayaran }}</td>
-                        <td class="p-3 border capitalize">{{ $pembayaran->status_pembayaran }}</td>
+
+                        <!-- Status kolom (Dropdown untuk admin jika pending) -->
+                        <td class="p-3 border">
+                            @if(auth()->user()->role === 'admin' && $pembayaran->status_pembayaran === 'pending')
+                                <form action="{{ route('pembayaran.updateStatus', $pembayaran->id) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <select name="status_pembayaran" onchange="this.form.submit()" class="border px-2 py-1 rounded text-sm transition duration-300 ease-in-out">
+                                        <option value="pending" {{ $pembayaran->status_pembayaran === 'pending' ? 'selected' : '' }}>Pending</option>
+                                        <option value="lunas" {{ $pembayaran->status_pembayaran === 'lunas' ? 'selected' : '' }}>Lunas</option>
+                                        <option value="gagal" {{ $pembayaran->status_pembayaran === 'gagal' ? 'selected' : '' }}>Gagal</option>
+                                    </select>
+                                </form>
+                            @else
+                                <span class="capitalize">{{ $pembayaran->status_pembayaran }}</span>
+                            @endif
+                        </td>
+
+                        <!-- Bukti -->
                         <td class="p-3 border text-center">
                             @if($pembayaran->pembayaran_detail && $pembayaran->pembayaran_detail->file_transaksi)
                                 <a href="{{ asset('storage/' . ltrim($pembayaran->pembayaran_detail->file_transaksi, '/')) }}" target="_blank" class="text-blue-600 underline">Lihat</a>
@@ -76,18 +81,19 @@
                                 <span class="text-gray-500">-</span>
                             @endif
                         </td>
+
+                        <!-- Keterangan -->
                         <td class="p-3 border">
                             {{ $pembayaran->pembayaran_detail->keterangan ?? '-' }}
                         </td>
+
+                        <!-- Aksi (hanya admin) -->
                         @if(auth()->user()->role === 'admin')
-                        <td class=" text-base space-x-2 text-center">
-                            <!-- Edit Button -->
+                        <td class="text-base space-x-2 text-center">
                             <a href="{{ route('template.admin.pembayaranEdit', $pembayaran->id) }}" 
-                            class="text-black hover:text-green-800 px-3 py-1 rounded text-xs">
+                                class="text-black hover:text-green-800 px-3 py-1 rounded text-xs">
                                 Edit
                             </a>
-
-                            <!-- Delete Button -->
                             <form action="{{ route('pembayaran.destroy', $pembayaran->id) }}" method="POST" class="inline-block"
                                 onsubmit="return confirm('Yakin ingin menghapus pembayaran ini?')">
                                 @csrf
@@ -98,20 +104,19 @@
                                 </button>
                             </form>
                         </td>
-                    @endif
+                        @endif
                     </tr>
                 @endforeach   
             </tbody>
         </table>
 
-        <!-- Pagination -->
+        <!-- Kembali & Pagination -->
         <div class="flex justify-between items-center mt-4">
-                <a href="{{ auth()->user()->role === 'admin' ? route('adminDashboard') : route('petugasDashboard') }}" 
+            <a href="{{ auth()->user()->role === 'admin' ? route('adminDashboard') : route('petugasDashboard') }}" 
                 class="bg-green-700 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-900 transition duration-200">
-                    Kembali
-                </a>
-            </div>
-        <!-- Pagination at the bottom right -->
+                Kembali
+            </a>
+        </div>
         <div class="mt-3 flex justify-end">
             {{ $pembayarans->withQueryString()->links() }}
         </div>

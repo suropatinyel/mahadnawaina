@@ -123,4 +123,80 @@ class Absensicontroller extends Controller
     
         return redirect()->route('template.ust.absen1')->with('success', 'Absensi berhasil dihapus!');
     }
+    public function rekap(Request $request)
+    {
+        $bulan = $request->input('bulan', now()->month);
+        $tahun = $request->input('tahun', now()->year);
+        $kelasId = $request->input('kelas_id');
+        $kamarId = $request->input('kamar_id');
+    
+        $query = Presensi::with('santri.user');
+    
+        $semester = $request->input('semester');
+        $bulan = $request->input('bulan');
+        $tahun = $request->input('tahun', now()->year);
+    
+        $query = Presensi::with('santri.user');
+    
+        if ($semester) {
+            // Semester 1: Januari - Juni | Semester 2: Juli - Desember
+            $startMonth = $semester == 1 ? 1 : 7;
+            $endMonth = $semester == 1 ? 6 : 12;
+    
+            $query->whereMonth('tanggal', '>=', $startMonth)
+                  ->whereMonth('tanggal', '<=', $endMonth)
+                  ->whereYear('tanggal', $tahun);
+        }
+    
+        if ($bulan) {
+            $query->whereMonth('tanggal', $bulan)
+                  ->whereYear('tanggal', $tahun);
+        }
+    
+        // Tambahkan filter kelas, kamar, dsb sesuai kebutuhanmu
+    
+        $rekap = $query->get();
+    
+    
+        // Filter bulan dan tahun
+        $query->whereMonth('tanggal', $bulan)
+              ->whereYear('tanggal', $tahun);
+    
+        // Filter kelas
+        if ($kelasId) {
+            $query->whereHas('santri.kelas', function ($q) use ($kelasId) {
+                $q->where('id', $kelasId);
+            });
+        }
+    
+        // Filter kamar
+        if ($kamarId) {
+            $query->whereHas('santri.kamar', function ($q) use ($kamarId) {
+                $q->where('id', $kamarId);
+            });
+        }
+    
+        $presensis = $query->get();
+    
+        // Rekap berdasarkan santri
+        $rekap = $presensis->groupBy('santri_id')->map(function ($data) {
+            return [
+                'hadir' => $data->where('status', 'hadir')->count(),
+                'izin' => $data->where('status', 'izin')->count(),
+                'sakit' => $data->where('status', 'sakit')->count(),
+                'alfa' => $data->where('status', 'alfa')->count(),
+            ];
+        });
+    
+        $santriIds = $rekap->keys();
+        $santris = Santri::whereIn('id', $santriIds)->with('user')->get()->keyBy('id');
+    
+        $kelasOptions = Kelas::pluck('nama', 'id');
+        $kamarOptions = Kamar::pluck('nama', 'id');
+    
+        return view('template.ust.absenRekap', compact(
+            'rekap', 'santris', 'kelasOptions', 'kamarOptions', 'bulan', 'tahun', 'semester'
+        ));
+        }
+    
 }

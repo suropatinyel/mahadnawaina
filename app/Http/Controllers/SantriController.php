@@ -181,4 +181,8 @@ class SantriController extends Controller
         });
         return redirect()->route('template.admin.datasantri')->with('success', 'Data santri berhasil dihapus!');
 }
+
+
+
+
 }
