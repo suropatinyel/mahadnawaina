@@ -35,7 +35,7 @@
                             Logout
                         </button>
                     </form>
-                    <a href="{{ route('login') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    <a href="{{ route('auth.login') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                         Sign In
                     </a>
                 </div>
@@ -53,19 +53,19 @@
             </div>
             <!-- Action Buttons -->
             <div class="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4">
-                <a href="{{ route('berita.index') }}" class="bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600">
+                <a href="{{ route('template.admin.beritaData') }}" class="bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600">
                     Berita
                 </a>
-                <a href="{{ route('santri.index') }}" class="bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600">
+                <a href="{{ route('template.admin.datasantri') }}" class="bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600">
                     Data Santri
                 </a>
-                <a href="{{ route('ustadz.index') }}" class="bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600">
+                <a href="{{ route('template.admin.dataust') }}" class="bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600">
                     Data Ustadz
                 </a>
-                <a href="{{ route('petugas.index') }}" class="bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600">
+                <a href="{{ route('template.admin.dataPetugas') }}" class="bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600">
                     Data Petugas
                 </a>
-                <a href="{{ route('pembayaran.index') }}" class="bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600">
+                <a href="{{ route('template.petugas.pembayaranSantri') }}" class="bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600">
                     Data Pembayaran
                 </a>
             </div>

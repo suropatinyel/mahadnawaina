@@ -21,7 +21,7 @@
 
         <!-- Login and Logout Buttons -->
         <div class="absolute top-4 right-4 flex space-x-4">
-            <a href="{{ route('login') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Login</a>
+            <a href="{{ route('auth.login') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Login</a>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</button>
@@ -38,10 +38,10 @@
 
         <!-- Registration and Payment Buttons -->
         <div class="flex justify-center space-x-4 mt-6">
-            <a href="#" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition">
+            <a href="https://ppdb.mtsn2kotamalang.sch.id/" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition">
                 Pendaftaran
             </a>
-            <a href="#" class="bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition">
+            <a href="{{ route('template.santri.santriFoto') }}" class="bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition">
                 Pembayaran
             </a>
         </div>
