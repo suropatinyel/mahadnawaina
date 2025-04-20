@@ -18,7 +18,7 @@
                         <h2 class="text-orange-600 text-sm uppercase tracking-wide">MTSN 2 Kota Malang</h2>
                     </div>
                 </div>
-                <form action="{{ route('logout') }}" method="POST">
+                <form action="{{ route('dashboard') }}" method="GET">
                     @csrf
                     <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl shadow">
                         Logout

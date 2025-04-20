@@ -182,6 +182,24 @@ class SantriController extends Controller
         return redirect()->route('template.admin.datasantri')->with('success', 'Data santri berhasil dihapus!');
 }
 
+public function search(Request $request)
+{
+    $query = $request->query('query');
+
+    $santris = Santri::with('user')
+        ->whereHas('user', function($q) use ($query) {
+            $q->where('name', 'like', "%{$query}%");
+        })
+        ->limit(5)
+        ->get();
+
+    return response()->json($santris->map(function ($santri) {
+        return [
+            'id' => $santri->id,
+            'name' => $santri->user->name
+        ];
+    }));
+}
 
 
 

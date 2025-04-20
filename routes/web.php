@@ -133,7 +133,8 @@ Route::middleware(['auth', 'role:petugas|admin'])->group(function () {
     Route::patch('/pembayaran/{id}/status', [PembayaranController::class, 'updateStatus'])->name('pembayaran.updateStatus');
     Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('template.petugas.pembayaranSantri');
     Route::get('/pembayaran/create', [PembayaranController::class, 'create'])->name('template.petugas.santriTambahPembayaran');
-    Route::post('/pembayaran/store', [PembayaranController::class, 'store'])->name('pembayaran.store');
+    Route::get('/api/search-santri', [SantriController::class, 'search']);
+    Route::post('/pembayaran/store', [PembayaranController::class, 'store'])->name('pembayaran.store.pe');
 
     // Hanya petugas/admin yang bisa edit/hapus data pembayaran
     Route::middleware(['role:petugas|admin'])->group(function () {
@@ -202,4 +203,5 @@ Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
     return back()->with('message', 'Link verifikasi telah dikirim ulang!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
 
