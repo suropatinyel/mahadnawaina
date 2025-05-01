@@ -23,9 +23,22 @@
                         Cari
                     </button>
                 </form>
-                <a href="{{ route('template.admin.santriTambah') }}" class="whitespace-nowrap bg-orange-500 text-white text-sm rounded px-4 py-2 hover:bg-orange-700">
-                    + Tambah Data
-                </a>
+
+                <!-- Dropdown per_page -->
+                <form method="GET" action="{{ route('template.admin.datasantri') }}" class="flex items-center space-x-2">
+                    <label for="per_page" class="text-sm">Show</label>
+                    <select name="per_page" id="per_page" onchange="this.form.submit()" class="border rounded p-2">
+                        <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
+                        <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
+                        <option value="100" {{ request('per_page') == 100 ? 'selected' : '' }}>100</option>
+                    </select>
+                </form>
+
+                @if(auth()->user()->role === 'admin') <!-- Tombol tambah data hanya untuk admin -->
+                    <a href="{{ route('template.admin.santriTambah') }}" class="whitespace-nowrap bg-orange-500 text-white text-sm rounded px-4 py-2 hover:bg-orange-700">
+                        + Tambah Data
+                    </a>
+                @endif
             </div>
 
             <div class="overflow-x-auto bg-white p-4 rounded shadow">
@@ -46,7 +59,9 @@
                             <th class="py-2 px-4 border">Status</th>
                             <th class="py-2 px-4 border">Masuk</th>
                             <th class="py-2 px-4 border">Keluar</th>
+                            @if(auth()->user()->role === 'admin')
                             <th class="py-2 px-4 border">Aksi</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -66,17 +81,19 @@
                                 <td class="py-2 px-4 border">{{ $santri->status }}</td>
                                 <td class="py-2 px-4 border">{{ $santri->waktu_masuk }}</td>
                                 <td class="py-2 px-4 border">{{ $santri->waktu_keluar }}</td>
+                                @if(auth()->user()->role === 'admin') <!-- Tombol Edit dan Hapus hanya untuk admin -->
                                 <td class="py-2 px-4 border flex justify-center space-x-2">
-                                    <a href="{{ route('template.admin.santriEdit', ['id' => $santri->id]) }}" class="bg-green-700 text-white px-2 py-1 rounded hover:bg-green-900">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <form action="{{ route('santri.destroy', ['id' => $santri->id]) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
+                                        <a href="{{ route('template.admin.santriEdit', ['id' => $santri->id]) }}" class="bg-green-700 text-white px-2 py-1 rounded hover:bg-green-900">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <form action="{{ route('santri.destroy', ['id' => $santri->id]) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -85,12 +102,18 @@
 
                 <div class="flex justify-between items-center mt-4">
                     <div>
-                        <a href="{{ route('adminDashboard') }}" class="bg-green-700 text-white text-sm rounded px-3 py-2 hover:bg-green-900">
-                         Kembali
-                        </a>
+                        @if(auth()->user()->role === 'petugas') <!-- Petugas akan kembali ke dashboard petugas -->
+                            <a href="{{ route('petugasDashboard') }}" class="bg-green-700 text-white text-sm rounded px-3 py-2 hover:bg-green-900">
+                                Kembali
+                            </a>
+                        @else
+                            <a href="{{ route('adminDashboard') }}" class="bg-green-700 text-white text-sm rounded px-3 py-2 hover:bg-green-900">
+                                Kembali
+                            </a>
+                        @endif
                     </div>
                     <div class="text-sm">
-                        {{ $santris->withQueryString()->links() }}
+                        {{ $santris->links() }}
                     </div>
                 </div>
             </div>

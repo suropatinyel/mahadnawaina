@@ -43,7 +43,7 @@ Route::get('reset-password/{token}', [ResetPasswordController::class, 'showReset
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 
-    Route::middleware(['auth'])->group(function () {
+    // Route::middleware(['auth'])->group(function () {
     Route::get('/',[BeritaController::class,'indexb'])->name('dashboard');
 
     // Dashboard untuk admin
@@ -71,7 +71,9 @@ Route::middleware(['auth', 'verified', 'role:petugas'])->get('/petugas/dashboard
 Route::get('/verify-email', [AuthController::class, 'showVerifyEmail'])->name('auth.verify');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-});// Routes untuk Ustadz (Hanya Admin yang bisa mengakses)
+
+// });// Routes untuk Ustadz (Hanya Admin yang bisa mengakses)
+
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/ustadz', [UstadController::class, 'index'])->name('template.admin.dataust');
     Route::get('/ustadz/create', [UstadController::class, 'create'])->name('template.admin.ustadzTambah');
@@ -96,13 +98,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 });
 
 // Routes untuk Santri (Semua pengguna yang login bisa melihat, tetapi hanya admin yang bisa edit/hapus)
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['role:petugas|admin'])->group(function () {
     Route::get('/santri', [SantriController::class, 'index'])->name('template.admin.datasantri');
-    Route::get('/santri/create', [SantriController::class, 'create'])->name('template.admin.santriTambah');
-    Route::post('/santri/store', [SantriController::class, 'store'])->name('santri.store');
-
+    
     // Hanya admin yang bisa edit/hapus data santri
     Route::middleware(['role:admin'])->group(function () {
+        Route::get('/santri/create', [SantriController::class, 'create'])->name('template.admin.santriTambah');
+        Route::post('/santri/store', [SantriController::class, 'store'])->name('santri.store');
         Route::get('/santri/{id}/edit', [SantriController::class, 'edit'])->name('template.admin.santriEdit');
         Route::put('/santri/{id}', [SantriController::class, 'update'])->name('santri.update');
         Route::delete('/santri/{id}', [SantriController::class, 'destroy'])->name('santri.destroy');

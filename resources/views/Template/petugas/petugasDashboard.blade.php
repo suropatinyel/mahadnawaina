@@ -40,9 +40,12 @@
 
 <!-- Action Buttons -->
 <div class="flex justify-center">
-    <div class="grid grid-cols-1 gap-6">
-        <a href="{{ route('template.petugas.pembayaranSantri') }}" class="bg-green-500 hover:bg-green-600 text-white p-6 rounded-2xl text-center font-semibold shadow-md transition transform hover:scale-105">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 place-items-center">
+        <a href="{{ route('template.petugas.pembayaranSantri') }}" class="bg-green-500 hover:bg-green-600 text-white p-6 rounded-2xl text-center font-semibold shadow-md transition transform hover:scale-105 w-64">
             Data Pembayaran
+        </a>
+        <a href="{{ route('template.admin.datasantri') }}" class="bg-green-500 hover:bg-green-600 text-white p-6 rounded-2xl text-center font-semibold shadow-md transition transform hover:scale-105 w-64">
+            Data Santri
         </a>
     </div>
 </div>

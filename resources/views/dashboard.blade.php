@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>
-        Ma'had Nawaina
+        Mahad Nawaina
     </title>
     <script src="https://cdn.tailwindcss.com">
     </script>
@@ -19,7 +19,7 @@
             <img alt="Logo" class="h-10 w-10" src="Logo.png" />
             <div class="ml-4">
                 <h1 class="text-lg font-bold">
-                    Ma'had Nawaina
+                    Mahad Nawaina
                 </h1>
                 <p class="text-sm text-gray-600">
                     MTsN 2 Kota Malang
@@ -51,7 +51,7 @@
                 SELAMAT DATANG
             </h2>
             <h3 class="text-3xl font-bold text-yellow-400">
-                MA'HAD NAWAINA
+                MAHAD NAWAINA
             </h3>
             <p class="mt-4">
                 MTsN 2 Kota Malang
@@ -63,10 +63,10 @@
     <main class="container mx-auto py-12 px-4">
         <section class="text-center mb-40">
             <h2 class="text-2xl font-bold mb-4 mt-6">
-                Ma'had Nawaina
+                Mahad Nawaina
             </h2>
             <p class="text-gray-700 leading-relaxed text-xl">
-                Pondok Pesantren Ma'had Nawaina merupakan lembaga pendidikan yang berfokus pada pengembangan karakter Islami dan akademik. Kami berkomitmen untuk mencetak generasi yang berakhlak mulia, berpengetahuan luas, dan berwawasan global. Dengan kurikulum yang terintegrasi antara ilmu agama dan ilmu umum, kami berharap dapat memberikan kontribusi positif bagi masyarakat dan bangsa.
+                Pondok Pesantren Mahad Nawaina merupakan lembaga pendidikan yang berfokus pada pengembangan karakter Islami dan akademik. Kami berkomitmen untuk mencetak generasi yang berakhlak mulia, berpengetahuan luas, dan berwawasan global. Dengan kurikulum yang terintegrasi antara ilmu agama dan ilmu umum, kami berharap dapat memberikan kontribusi positif bagi masyarakat dan bangsa.
             </p>
 
         </section>
@@ -76,11 +76,11 @@
         BERITA TERKINI MTsN 2 KOTA MALANG
     </h2>
     <p class="text-center text-gray-700 mb-12 text-xl">
-        Berita di Ma'had Nawaina meliputi berbagai aktivitas yang mendukung pengembangan diri, baik dalam bidang akademik maupun non-akademik.
+        Berita di Mahad Nawaina meliputi berbagai aktivitas yang mendukung pengembangan diri, baik dalam bidang akademik maupun non-akademik.
     </p>
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3">
         @foreach ($beritas as $berita)
-            <div class="bg-white p-4 rounded-lg h-96 mx-10 shadow-md overflow-hidden cursor-pointer berita-card" data-berita-id="{{ $berita->id }}" data-judul="{{ $berita->judul }}" data-isi="{{ $berita->isi }}" data-gambar="{{ Storage::url($berita->gambar) }}">
+            <div class="bg-white p-4 rounded-lg mx-10 shadow-md overflow-hidden flex flex-col">
                 <!-- Menampilkan gambar berita -->
                 <img alt="{{ $berita->judul }}" class="w-full h-40 object-cover rounded-lg mb-4" src="{{ Storage::url($berita->gambar) }}" />
 
@@ -90,9 +90,14 @@
                 </h3>
 
                 <!-- Menampilkan isi berita secara ringkas -->
-                <p class="text-sm text-gray-700">
+                <p class="text-sm text-gray-700 mb-4">
                     {{ \Illuminate\Support\Str::limit(strip_tags($berita->isi), 100, '...') }}
                 </p>
+
+                <!-- Tombol Selengkapnya -->
+                <a href="{{ $berita->link_berita ?? '#' }}" target="_blank" class="mt-auto text-blue-600 hover:text-blue-800 font-semibold text-sm">
+                    Selengkapnya →
+                </a>
             </div>
         @endforeach
     </div>
@@ -162,26 +167,6 @@
         }
     });
 </script>
-
-
-    <!-- Navigation Section -->
-    <div class="flex justify-center bg-gray-200 p-4">
-        <div class="bg-white p-4 m-2 shadow-lg">
-            <a class="text-green-600 font-bold" href="#">
-                B. Sains &amp; IPA
-            </a>
-        </div>
-        <div class="bg-white p-4 m-2 shadow-lg">
-            <a class="text-green-600 font-bold" href="#">
-                B. Sosial &amp; IPS
-            </a>
-        </div>
-        <div class="bg-white p-4 m-2 shadow-lg">
-            <a class="text-green-600 font-bold" href="#">
-                B. Agama &amp; PAI
-            </a>
-        </div>
-    </div>
     <!-- Grid Section -->
     <!-- SUSUNAN PENGURUS Section with Carousel -->
     <div class="bg-black text-white p-6">
@@ -192,7 +177,7 @@
             Masa Khidmat 2021-2022
         </p>
         <p class="mt-1">
-            Kepala Ma'had: Ust. Nur Hasan
+            Kepala Mahad: Ust. Nur Hasan
         </p>
         <!-- Carousel Container -->
         <div class="relative">
@@ -204,7 +189,7 @@
                         <div class="bg-white rounded-lg shadow-lg p-6">
                             <img class="rounded-full w-32 h-32 mx-auto mb-4" src="https://placehold.co/150x150" alt="Teacher 1" />
                             <h3 class="text-xl text-center font-semibold">Ust. Ahmad</h3>
-                            <p class="text-center text-gray-600">Pengasuh Ma'had</p>
+                            <p class="text-center text-gray-600">Pengasuh Mahad</p>
                         </div>
                     </div>
                     <!-- Carousel Item -->
@@ -212,7 +197,7 @@
                         <div class="bg-white rounded-lg shadow-lg p-6">
                             <img class="rounded-full w-32 h-32 mx-auto mb-4" src="https://placehold.co/150x150" alt="Teacher 2" />
                             <h3 class="text-xl text-center font-semibold">Ust. Ali</h3>
-                            <p class="text-center text-gray-600">Pengurus Ma'had</p>
+                            <p class="text-center text-gray-600">Pengurus Mahad</p>
                         </div>
                     </div>
                     <!-- Carousel Item -->
@@ -220,7 +205,7 @@
                         <div class="bg-white rounded-lg shadow-lg p-6">
                             <img class="rounded-full w-32 h-32 mx-auto mb-4" src="https://placehold.co/150x150" alt="Teacher 3" />
                             <h3 class="text-xl text-center font-semibold">Ust. Fatimah</h3>
-                            <p class="text-center text-gray-600">Pengurus Ma'had</p>
+                            <p class="text-center text-gray-600">Pengurus Mahad</p>
                         </div>
                     </div>
                     <!-- Carousel Item -->
@@ -228,7 +213,7 @@
                         <div class="bg-white rounded-lg shadow-lg p-6">
                             <img class="rounded-full w-32 h-32 mx-auto mb-4" src="https://placehold.co/150x150" alt="Teacher 4" />
                             <h3 class="text-xl text-center font-semibold">Ust. Zainab</h3>
-                            <p class="text-center text-gray-600">Pengurus Ma'had</p>
+                            <p class="text-center text-gray-600">Pengurus Mahad</p>
                         </div>
                     </div>
                 </div>
@@ -286,7 +271,7 @@
     <!-- Facilities Section -->
     <div class="bg-white p-6">
         <h2 class="text-center text-green-600 text-2xl font-bold">
-            FASILITAS MA'HAD NAWA'INA
+            FASILITAS MAHAD NAWAINA
         </h2>
         <div class="flex flex-wrap justify-center mt-4">
             <div class="bg-gray-200 p-2 m-2 rounded-full">

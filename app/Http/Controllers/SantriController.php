@@ -19,7 +19,13 @@ class SantriController extends Controller
     {
         $search = $request->input('search');
     
-        $santris = Santri::with(['user', 'kamar', 'kelas', 'santriDetail']) // Tambahkan santriDetail di sini
+        // Ambil input jumlah data per halaman dari user (default 10)
+        $perPage = $request->input('per_page', 10);
+    
+        // Pastikan perPage hanya boleh 10, 50, 100
+        $perPage = in_array($perPage, [10, 50, 100]) ? $perPage : 10;
+    
+        $santris = Santri::with(['user', 'kamar', 'kelas', 'santriDetail'])
             ->when($search, function ($query, $search) {
                 $query->whereHas('user', function ($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%");
@@ -30,12 +36,12 @@ class SantriController extends Controller
                     $q->where('nama', 'like', "%{$search}%");
                 });
             })
-            ->paginate(10)
+            ->paginate($perPage)
             ->withQueryString();
     
-        return view('template.admin.datasantri', compact('santris', 'search'));
+        return view('template.admin.datasantri', compact('santris', 'search', 'perPage'));
     }
-            
+                
     public function create()
     {
         $kelas = Kelas::all();  // Mengambil semua data kelas

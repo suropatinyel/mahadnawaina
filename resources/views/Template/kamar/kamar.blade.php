@@ -11,7 +11,7 @@
     <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
         <!-- Header -->
         <div class="flex items-center mb-6">
-            <img src="" alt="School Logo" class="h-12 w-12 mr-4">
+            <img src="c:\Users\ADMIN\OneDrive\文档\Gambar\Buat Coding\c59e420c62c11600220132a005833251.png" alt="School Logo" class="h-12 w-12 mr-4">
             <div>
                 <h1 class="text-xl font-bold text-gray-800">Ma'Had Nawaina</h1>
                 <h2 class="text-sm text-orange-600">MTSN 2 Kota Malang</h2>

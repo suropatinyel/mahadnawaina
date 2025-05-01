@@ -14,6 +14,9 @@ class UstadController extends Controller
     {
         $search = $request->search;
     
+        // Ambil jumlah per halaman dari query string atau default 10
+        $perPage = $request->input('per_page', 10);
+        
         $query = Ustad::with('user')
             ->when($search, function ($q) use ($search) {
                 $q->where(function ($q) use ($search) {
@@ -26,11 +29,12 @@ class UstadController extends Controller
                 });
             });
     
-        $ustads = $query->paginate(2);
+        // Terapkan pagination berdasarkan jumlah per halaman yang dipilih
+        $ustads = $query->paginate($perPage);
     
-        return view('template.admin.dataust', compact('ustads'));
+        return view('template.admin.dataust', compact('ustads', 'search'));
     }
-    // Menampilkan form tambah Ustad
+        // Menampilkan form tambah Ustad
     public function create()
     {
         return view('template.admin.ustadzTambah');

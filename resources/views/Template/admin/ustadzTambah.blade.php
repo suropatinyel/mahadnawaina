@@ -55,12 +55,15 @@
         <input name="mata_pelajaran" type="text" class="w-full border border-gray-300 rounded p-2" required>
     </div>
 
-    <div class="text-center">
-        <button type="submit" class="bg-yellow-500 text-white font-bold py-2 px-4 rounded">
-            Tambah
-        </button>
-    </div>
-</form>
+    <div class="flex justify-between mt-6">
+                    <a href="{{ route('template.admin.dataust') }}" class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-900">
+                        Kembali
+                    </a>
+                    <button type="submit" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600">
+                        Tambah
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </body>

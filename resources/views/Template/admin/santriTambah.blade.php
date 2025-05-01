@@ -124,10 +124,6 @@
                     <label class="block font-medium">Tanggal Daftar</label>
                     <input type="date" name="tanggal_daftar" class="w-full border rounded p-2" required>
                 </div>
-                <div class="flex items-center mt-6">
-                    <input type="checkbox" name="daftar_ulang" value="1" class="mr-2">
-                    <label class="font-medium">Daftar Ulang</label>
-                </div>
             </div>
 
             <!-- Foto -->

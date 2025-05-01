@@ -15,13 +15,13 @@
 
 <body class="flex items-center justify-center min-h-screen">
     <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-        <h1 class="text-3xl font-bold text-center text-green-700 mb-3">Tambah Data Pengumuman</h1>
+        <h1 class="text-3xl font-bold text-center text-green-700 mb-3">Tambah Data Berita</h1>
         <div class="border-t-4 border-yellow-500 w-20 mx-auto mb-6"></div>
 
         <form action="{{ route('berita.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
             <div class="mb-4">
-                <label for="judul" class="block text-sm font-medium text-gray-700 mb-2">Judul Pengumuman</label>
+                <label for="judul" class="block text-sm font-medium text-gray-700 mb-2">Judul Berita</label>
                 <input type="text" name="judul" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-700" id="judul" placeholder="Masukkan Judul Pengumuman" required>
             </div>
                         
@@ -38,6 +38,11 @@
             <div class="mb-4">
                 <label for="gambar" class="block text-sm font-medium text-gray-700 mb-2">Gambar Pengumuman</label>
                 <input type="file" name="gambar" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-700" id="gambar" accept="image/*" required>
+            </div>
+
+            <div class="mb-4">
+                 <label for="link" class="block text-sm font-medium text-gray-700 mb-2">Link Tautan</label>
+                <input type="text" name="link" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-700" id="judul" placeholder="Masukkan Link Tautan Berita" required>
             </div>
             
             <div class="mb-4">

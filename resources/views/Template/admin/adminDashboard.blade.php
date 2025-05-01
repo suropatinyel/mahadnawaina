@@ -14,11 +14,11 @@
                 <div class="flex items-center space-x-4">
                 <img alt="Logo" width="50" height="50" class="rounded-full shadow-md" src="{{ asset('Logo.png') }}" />
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-800">Ma'Had Nawaina</h1>
+                        <h1 class="text-2xl font-bold text-gray-800">Mahad Nawaina</h1>
                         <h2 class="text-orange-600 text-sm uppercase tracking-wide">MTSN 2 Kota Malang</h2>
                     </div>
                 </div>
-                <form action="{{ route('dashboard') }}" method="GET">
+                <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl shadow">
                         Logout
@@ -52,6 +52,12 @@
                 </a>
                 <a href="{{ route('template.petugas.pembayaranSantri') }}" class="bg-green-500 hover:bg-green-600 text-white p-6 rounded-2xl text-center font-semibold shadow-md transition transform hover:scale-105">
                     Data Pembayaran
+                </a>
+                <a href="{{ route('template.kamar.kelas') }}" class="bg-green-500 hover:bg-green-600 text-white p-6 rounded-2xl text-center font-semibold shadow-md transition transform hover:scale-105">
+                    Data Kelas
+                </a>
+                <a href="{{ route('template.kamar.kamar') }}" class="bg-green-500 hover:bg-green-600 text-white p-6 rounded-2xl text-center font-semibold shadow-md transition transform hover:scale-105">
+                    Data Kamar
                 </a>
             </div>
         </div>

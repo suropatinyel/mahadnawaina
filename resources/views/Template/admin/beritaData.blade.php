@@ -25,7 +25,7 @@
         @foreach($beritas as $berita)
         <tr class="border-b">
             <td class="px-4 py-2">{{ $berita->judul }}</td>
-            <td class="px-4 py-2">{{ $berita->tanggal_publikasi }}</td>
+            <td class="px-4 py-2">{{ date('h:m d-m-Y', strtotime($berita->tanggal_publikasi)) }}</td>
             <td class="px-4 py-2 capitalize">{{ $berita->status }}</td>
             <td class="px-4 py-2 text-center space-x-2">
                 <!-- Tombol Edit -->

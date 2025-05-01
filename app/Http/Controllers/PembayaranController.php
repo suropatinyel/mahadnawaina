@@ -11,21 +11,28 @@ class PembayaranController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Pembayaran::with(['santri.user', 'pembayaran_detail']);
+        $query = Pembayaran::query();
     
-        if ($request->has('search')) {
-            $search = $request->search;
-            $query->whereHas('santri.user', function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%');
+        // Jika ada pencarian
+        if ($request->has('search') && $request->search) {
+            $query->whereHas('santri', function($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%');
             });
         }
     
-        $pembayarans = $query->orderBy('tanggal', 'desc')->paginate(2);
+        // Jika ada bulan yang dipilih
+        if ($request->has('bulan') && $request->bulan != '') {
+            $query->where('bulan', $request->bulan);
+        }
+    
+        // Ambil data pembayaran dengan pagination
+        $pembayarans = $query->paginate($request->get('perPage', 10));
     
         return view('template.petugas.pembayaranSantri', compact('pembayarans'));
-    }    
-
-    public function create(Request $request)
+    }
+    
+    
+            public function create(Request $request)
     {
         // Jika petugas
         if (auth()->user()->isPetugas()) {

@@ -73,7 +73,7 @@ public function login(Request $request)
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('auth.login')->with('success', 'Logout berhasil.');
+        return redirect()->route('dashboard')->with('success', 'Logout berhasil.');
     }
 
     public function showVerifyEmail()
