@@ -106,7 +106,12 @@
                 </div>
                 <div>
                     <label class="block font-medium">Waktu Keluar</label>
-                    <input type="date" name="waktu_keluar" class="w-full border rounded p-2" required>
+                    <input type="date" name="waktu_keluar" class="w-full border rounded p-2">
+                </div>
+                                <!-- Tanggal Daftar -->
+                <div>
+                    <label class="block font-medium">Tanggal Daftar</label>
+                    <input type="date" name="tanggal_daftar" class="w-full border rounded p-2" required>
                 </div>
             </div>
 
