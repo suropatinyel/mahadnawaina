@@ -9,7 +9,7 @@
 <body class="bg-gray-50 font-sans text-gray-800">
 
     <div class="max-w-3xl mx-auto px-6 py-10">
-        <h1 class="text-4xl font-extrabold mb-8 text-center text-blue-600">Edit Data Berita</h1>
+        <h1 class="text-4xl font-extrabold mb-8 text-center text-green-600">Edit Data Berita</h1>
 
         <form action="{{ route('berita.update', $beritas->id) }}" method="POST" enctype="multipart/form-data" class="bg-white p-8 rounded-lg shadow-xl space-y-6 border border-gray-200">
             @csrf
@@ -38,9 +38,20 @@
             <!-- Tanggal Publikasi -->
             <div>
                 <label for="tanggal_publikasi" class="block text-lg font-semibold mb-2">Tanggal Publikasi</label>
-                <input type="date" name="tanggal_publikasi" id="tanggal_publikasi" value="{{ old('tanggal_publikasi', $beritas->tanggal_publikasi) }}"
+                <input type="date" name="tanggal_publikasi" id="tanggal_publikasi" 
+                    value="{{ old('tanggal_publikasi', \Carbon\Carbon::parse($beritas->tanggal_publikasi)->format('Y-m-d')) }}"
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-300">
                 @error('tanggal_publikasi')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Link -->
+            <div>
+                <label for="link_berita" class="block text-lg font-semibold mb-2">Link Berita</label>
+                <input type="url" name="link" id="link" value="{{ old('link', $beritas->link) }}"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-300">
+                @error('link_berita')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>
@@ -74,7 +85,7 @@
             <!-- Tombol Simpan -->
             <div class="flex justify-end items-center">
                 <button type="submit"
-                    class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition ease-in-out duration-300">Simpan Perubahan</button>
+                    class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition ease-in-out duration-300">Simpan Perubahan</button>
                 <a href="{{ route('template.admin.beritaData') }}"
                     class="ml-4 text-gray-600 hover:text-blue-500 hover:underline transition ease-in-out duration-300">Kembali</a>
             </div>

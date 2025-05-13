@@ -59,6 +59,9 @@
                 <a href="{{ route('template.kamar.kamar') }}" class="bg-green-500 hover:bg-green-600 text-white p-6 rounded-2xl text-center font-semibold shadow-md transition transform hover:scale-105">
                     Data Kamar
                 </a>
+                <a href="{{ route('template.ust.absen1') }}" class="bg-green-500 hover:bg-green-600 text-white p-6 rounded-2xl text-center font-semibold shadow-md transition transform hover:scale-105">
+                    Data Absensi
+                </a>
             </div>
         </div>
     </div>

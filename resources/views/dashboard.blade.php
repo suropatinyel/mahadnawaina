@@ -80,25 +80,23 @@
     </p>
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3">
         @foreach ($beritas as $berita)
-            <div class="bg-white p-4 rounded-lg mx-10 shadow-md overflow-hidden flex flex-col">
-                <!-- Menampilkan gambar berita -->
-                <img alt="{{ $berita->judul }}" class="w-full h-40 object-cover rounded-lg mb-4" src="{{ Storage::url($berita->gambar) }}" />
+                <div class="bg-white p-4 rounded-lg mx-10 shadow-md overflow-hidden flex flex-col">
+                    <img alt="{{ $berita->judul }}" class="w-full h-40 object-cover rounded-lg mb-4" src="{{ Storage::url($berita->gambar) }}" />
+                    
+                    <h3 class="text-lg font-bold mb-2">{{ $berita->judul }}</h3>
 
-                <!-- Menampilkan judul berita -->
-                <h3 class="text-lg font-bold mb-2">
-                    {{ $berita->judul }}
-                </h3>
+                    <p class="text-sm text-gray-700 mb-4">
+                        {{ \Illuminate\Support\Str::limit(strip_tags($berita->isi), 30, '....') }}
+                    </p>
 
-                <!-- Menampilkan isi berita secara ringkas -->
-                <p class="text-sm text-gray-700 mb-4">
-                    {{ \Illuminate\Support\Str::limit(strip_tags($berita->isi), 100, '...') }}
-                </p>
-
-                <!-- Tombol Selengkapnya -->
-                <a href="{{ $berita->link_berita ?? '#' }}" target="_blank" class="mt-auto text-blue-600 hover:text-blue-800 font-semibold text-sm">
-                    Selengkapnya →
-                </a>
-            </div>
+                    @if (!empty($berita->link))
+                        <a href="{{ $berita->link }}" target="_blank" class="mt-auto text-blue-600 hover:text-blue-800 font-semibold text-sm">
+                            Selengkapnya →
+                        </a>
+                    @else
+                        <span class="mt-auto text-gray-400 italic text-sm">Link belum tersedia</span>
+                    @endif
+                </div>
         @endforeach
     </div>
 </section>

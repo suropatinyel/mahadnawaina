@@ -4,37 +4,48 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Dashboard</title>
+    <title>Dashboard Ustadz</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
 </head>
 
-<body class="bg-gray-100">
-    <div class="flex min-h-screen">
-        <!-- Main Content -->
-        <div class="flex-1 p-8">
-            <div class="bg-white rounded-lg shadow-lg p-6">
-                <div class="relative">
-                    <img alt="Students in class" class="w-full h-64 object-cover rounded-lg"
-                        src="https://storage.googleapis.com/a1aa/image/Y4NmypERlWZnuYyvaa8yM-1zWTn0vxPoNxfmqRX1SS0.jpg" />
-                    <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center text-white">
-                        <h2 class="text-4xl font-bold">SELAMAT DATANG</h2>
-                        <p class="text-2xl">Us/Ust</p>
-                        <p class="mt-2">Anda Berhasil Login sebagai Us/Ust!</p>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-6xl">
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+            <!-- Header -->
+            <div class="flex items-center justify-between border-b pb-6 mb-6">
+                <div class="flex items-center space-x-4">
+                    <img alt="Logo" width="50" height="50" class="rounded-full shadow-md" src="{{ asset('Logo.png') }}" />
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">Mahad Nawaina</h1>
+                        <h2 class="text-orange-600 text-sm uppercase tracking-wide">MTSN 2 Kota Malang</h2>
                     </div>
                 </div>
-                <!-- Buttons -->
-                <div class="mt-6 flex justify-center space-x-4">
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-                            Logout
-                        </button>
-                    </form>
-                    <a href="{{ route('template.ust.absen1') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                        Data Presensi
-                    </a>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl shadow">
+                        Logout
+                    </button>
+                </form>
+            </div>
+
+            <!-- Welcome Banner -->
+            <div class="relative bg-green-50 rounded-xl shadow-inner text-center mb-8 overflow-hidden">
+                <div class="absolute inset-0">
+                <img src="{{ asset('schoolbanner.jpg') }}" alt="schoolbanner" class="w-full h-full object-cover opacity-40">
                 </div>
+                <div class="relative p-6 z-10">
+                    <h1 class="text-3xl font-bold text-yellow-500 mb-2">SELAMAT DATANG USTADZ/USTADZAH</h1>
+                    <p class="text-gray-800 font-medium">Anda Berhasil Login!</p>
+                </div>
+            </div>
+
+            <!-- Action Cards -->
+            <div class="flex justify-center">
+                <a href="{{ route('template.ust.absen1') }}" class="bg-green-500 hover:bg-green-600 text-white p-6 rounded-2xl text-center font-semibold shadow-md transition transform hover:scale-105 w-64">
+                    Data Presensi
+                </a>
+            </div>                <!-- Tambahkan card lainnya jika dibutuhkan -->
             </div>
         </div>
     </div>

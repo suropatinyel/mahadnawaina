@@ -19,6 +19,7 @@ class pembayaran extends Model
         'tanggal',
         'bulan',
         'kode_transaksi',
+        'maksud_bayar',
         'status_pembayaran',
         'metode_pembayaran',
     ];

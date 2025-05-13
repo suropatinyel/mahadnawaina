@@ -10,12 +10,34 @@
 </head>
 
 <body class="bg-gray-100">
-    <div class="flex">
         <!-- Main Content -->
         <div class="flex-1 p-6">
             <h1 class="text-2xl font-bold text-green-900 mb-4">
                 Data Santri
             </h1>
+                <!-- Tombol Export dan Import -->
+    <div class="flex space-x-4 items-center mb-4">
+@if(auth()->user()->role === 'admin')
+    <form action="{{ route('export') }}" method="GET" class="flex items-center space-x-2 mt-4">
+        <select name="kelas_id" required class="border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
+            <option value="">-- Pilih Kelas --</option>
+            @foreach($semua_kelas as $kelas)
+                <option value="{{ $kelas->id }}">{{ $kelas->nama }}</option>
+            @endforeach
+        </select>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm">
+            <i class="fas fa-file-export mr-1"></i> Export Excel
+        </button>
+    </form>
+    <form action="{{ route('santri.import') }}" method="POST" enctype="multipart/form-data" class="flex items-center space-x-2">
+        @csrf
+        <input type="file" name="file" required class="border rounded p-1 text-sm">
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            <i class="fas fa-file-import mr-2"></i> Import
+        </button>
+    </form>
+    @endif
+    </div>
             <div class="flex justify-between items-center mb-4">
                 <form method="GET" action="{{ route('template.admin.datasantri') }}" class="flex w-full mr-4">
                     <input type="text" name="search" class="border rounded p-2 w-full" placeholder="Cari nama, ID, alamat, atau kelas..." value="{{ request('search') }}" />
@@ -46,6 +68,7 @@
                     <thead>
                         <tr class="bg-green-200 text-left">
                             <th class="py-2 px-4 border">No</th>
+                            <th class="py-2 px-4 border">No. Induk</th>
                             <th class="py-2 px-4 border">NIS</th>
                             <th class="py-2 px-4 border">Nama</th>
                             <th class="py-2 px-4 border">Kamar</th>
@@ -68,6 +91,7 @@
                         @foreach ($santris as $index => $santri)
                             <tr class="{{ $index % 2 == 0 ? 'bg-gray-100' : 'bg-white' }} text-center">
                                 <td class="py-2 px-4 border">{{ $loop->iteration }}</td>
+                                <td class="py-2 px-4 border">{{ $santri->no_induk_santri }}</td>
                                 <td class="py-2 px-4 border">{{ $santri->nis }}</td>
                                 <td class="py-2 px-4 border">{{ $santri->user->name }}</td>
                                 <td class="py-2 px-4 border">{{ $santri->kamar->nama }}</td>

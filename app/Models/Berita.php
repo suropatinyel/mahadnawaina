@@ -16,8 +16,8 @@ class Berita extends Model
         'isi',
         'kategori',
         'tanggal_publikasi',
-        'penulis',
         'gambar',
+        'link',
         'status',
     ];
 

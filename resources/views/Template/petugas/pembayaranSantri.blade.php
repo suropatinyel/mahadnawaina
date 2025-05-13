@@ -22,7 +22,13 @@
                 class="bg-orange-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-orange-600 transition duration-200">
                 Tambah Pembayaran
             </a>
-        @endif
+            @endif
+            <form action="{{ route('export-pembayaran') }}" method="GET" class="flex items-center space-x-2 mt-4">
+    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm">
+        <i class="fas fa-file-export mr-1"></i> Export Excel
+    </button>
+</form>
+
 
         <!-- Filter and Search Section -->
         <div class="flex justify-between mt-4 flex-wrap gap-4 items-center">
@@ -76,6 +82,7 @@
                         <th class="p-3 border">Kelas</th>
                         <th class="p-3 border">Tanggal</th>
                         <th class="p-3 border">Bulan</th>
+                        <th class="p-3 border">Tujuan Pembayaran</th>
                         <th class="p-3 border">Jumlah</th>
                         <th class="p-3 border">Kode Transaksi</th>
                         <th class="p-3 border">Metode</th>
@@ -95,6 +102,7 @@
                             <td class="p-3 border">{{ $pembayaran->santri->kelas->nama ?? '-' }}</td>
                             <td class="p-3 border">{{ \Carbon\Carbon::parse($pembayaran->tanggal)->format('d/m/Y') }}</td>
                             <td class="p-3 border">{{ $pembayaran->bulan }}</td>
+                            <td class="p-3 border">{{ $pembayaran->maksud_bayar }}</td>
                             <td class="p-3 border">Rp {{ number_format($pembayaran->jumlah, 0, ',', '.') }}</td>
                             <td class="p-3 border">{{ $pembayaran->kode_transaksi }}</td>
                             <td class="p-3 border capitalize">{{ $pembayaran->metode_pembayaran }}</td>

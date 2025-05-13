@@ -43,6 +43,12 @@
         <input type="date" name="tanggal" value="{{ old('tanggal') }}" class="w-full border border-gray-300 rounded p-2">
     </div>
 
+    <select name="maksud_bayar" class="form-control" required>
+    <option value="bulanan" {{ old('maksud_bayar') == 'bulanan' ? 'selected' : '' }}>Bulanan</option>
+    <option value="bukan_bulanan" {{ old('maksud_bayar') == 'bukan_bulanan' ? 'selected' : '' }}>Bukan Bulanan</option>
+</select>
+
+
     <!-- Bulan dan Metode Pembayaran -->
     <div class="flex gap-4">
         <!-- Bulan -->

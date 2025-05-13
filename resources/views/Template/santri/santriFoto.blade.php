@@ -65,6 +65,16 @@
                     </select>
                 </div>
 
+                <!-- Maksud Pembayaran -->
+                <div class="mt-4">
+                    <label class="block mb-1 font-semibold">Tujuan Pembayaran</label>
+                    <select name="maksud_bayar" required class="w-full border p-2">
+                        <option value="">-- Pilih Tujuan Pembayaran --</option>
+                        <option value="Bulanan">Bulanan</option>
+                        <option value="Bukan Bulanan">Bukan Bulanan</option>
+                    </select>
+                </div>
+
                 <!-- Metode -->
                 <div>
                     <label class="block mb-1 font-semibold">Metode Pembayaran</label>

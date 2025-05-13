@@ -40,12 +40,11 @@ class santri extends Model
     {
         return $this->hasOne(SantriDetail::class);
     }
-
-    public function pembayaran()
+    public function pembayarans()
     {
-        return $this->hasMany(Pembayaran::class);
+        return $this->hasMany(Pembayaran::class, 'santri_id', 'id');
     }
-
+    
     public function presensi()
     {
         return $this->hasMany(Presensi::class);

@@ -81,6 +81,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/ustadz/{id}/edit', [UstadController::class, 'edit'])->name('template.admin.ustadzEdit');
     Route::put('/ustadz/{id}', [UstadController::class, 'update'])->name('ustadz.update');
     Route::delete('/ustadz/{id}', [UstadController::class, 'destroy'])->name('ustadz.destroy');
+    Route::get('/ustad/export', [UstadController::class, 'exportExcel'])->name('ustad.export');
+    Route::post('/ustad/import', [UstadController::class, 'importExcel'])->name('ustad.import');
 
     Route::get('/kamar', [KamarController::class, 'index'])->name('template.kamar.kamar');
     Route::get('/kamar/create', [KamarController::class, 'create'])->name('template.kamar.kamarTambah');
@@ -100,6 +102,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 // Routes untuk Santri (Semua pengguna yang login bisa melihat, tetapi hanya admin yang bisa edit/hapus)
 Route::middleware(['role:petugas|admin'])->group(function () {
     Route::get('/santri', [SantriController::class, 'index'])->name('template.admin.datasantri');
+    Route::get('/export', [pembayaranController::class, 'export'])->name('export-pembayaran');
     
     // Hanya admin yang bisa edit/hapus data santri
     Route::middleware(['role:admin'])->group(function () {
@@ -108,6 +111,8 @@ Route::middleware(['role:petugas|admin'])->group(function () {
         Route::get('/santri/{id}/edit', [SantriController::class, 'edit'])->name('template.admin.santriEdit');
         Route::put('/santri/{id}', [SantriController::class, 'update'])->name('santri.update');
         Route::delete('/santri/{id}', [SantriController::class, 'destroy'])->name('santri.destroy');
+        Route::get('/export-santri', [SantriController::class, 'export'])->name('export');
+        Route::post('/santri/import', [santricontroller::class, 'import'])->name('santri.import');
     });
 });
 
@@ -149,7 +154,10 @@ Route::middleware(['auth', 'role:petugas|admin'])->group(function () {
 Route::middleware(['auth', 'role:santri'])->group(function () {
     Route::get('/santri/pembayaran/tambah', [PembayaranController::class, 'create'])->name('template.santri.santriFoto');
     Route::post('/santri/pembayaran/store', [PembayaranController::class, 'store'])->name('pembayaran.store');
-});
+    Route::get('/riwayat-pembayaran/{santri}', [PembayaranController::class, 'showRiwayat'])->name('pembayaran.riwayat');
+    Route::get('/download-riwayat-pembayaran/{santri}', [PembayaranController::class, 'downloadRiwayatPdf'])->name('pembayaran.downloadRiwayatPdf');
+    Route::get('/pembayaran/{id}/download-detail', [PembayaranController::class, 'downloadDetailPdf'])->name('pembayaran.downloadDetailPdf');
+    });
 
 
 // Routes untuk Absensi (Hanya Admin dan Ustadz yang bisa mengakses)
@@ -161,6 +169,7 @@ Route::middleware(['auth', 'role:admin|ustadz'])->group(function () {
     Route::put('/absensi/{id}', [AbsensiController::class, 'update'])->name('absensi.update');
     Route::delete('/absensi/{id}', [AbsensiController::class, 'destroy'])->name('absensi.destroy');
     Route::get('/absensi/rekap', [AbsensiController::class, 'rekap'])->name('absensi.rekap');
+    Route::get('/absensi/export', [AbsensiController::class, 'export'])->name('absensi.export');
 });
 
 

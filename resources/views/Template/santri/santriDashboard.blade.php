@@ -41,13 +41,21 @@
             </p>
         </section>
 
-        <!-- Registration / Payment Buttons -->
-        <section class="flex justify-center mb-16">
-            <a href="{{ route('template.santri.santriFoto') }}"
-                class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg transition transform hover:scale-105">
-                Pembayaran
-            </a>
-        </section>
+<!-- Registration / Payment Buttons -->
+<section class="flex justify-center mb-16 gap-6">
+    <!-- Pembayaran Button -->
+    <a href="{{ route('template.santri.santriFoto') }}"
+        class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg transition transform hover:scale-105">
+        Pembayaran
+    </a>
+
+    <!-- Riwayat Pembayaran Button -->
+    <a href="{{ route('pembayaran.riwayat', auth()->user()->santri->id) }}"
+        class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg transition transform hover:scale-105">
+        Riwayat Pembayaran
+    </a>
+</section>
+
 
         <!-- Testimonial Section -->
         <section class="bg-green-800 text-white rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 shadow-lg mb-16">

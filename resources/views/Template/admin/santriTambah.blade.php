@@ -109,21 +109,11 @@
                     <input type="date" name="waktu_keluar" class="w-full border rounded p-2" required>
                 </div>
             </div>
-            <!-- Status -->
+
+            <!-- Status (di-set ke 'baru' otomatis) -->
             <div>
                 <label class="block font-medium">Status</label>
-                <select name="status" class="w-full border rounded p-2" required>
-                    <option value="">Pilih Status</option>
-                    <option value="aktif">Aktif</option>
-                    <option value="alumni">Alumni</option>
-                </select>
-            </div>
-            <!-- Tanggal Daftar & Daftar Ulang -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block font-medium">Tanggal Daftar</label>
-                    <input type="date" name="tanggal_daftar" class="w-full border rounded p-2" required>
-                </div>
+                <input type="text" name="status" value="baru" class="w-full border rounded p-2" readonly>
             </div>
 
             <!-- Foto -->
@@ -134,7 +124,7 @@
 
             <!-- Tombol Simpan -->
             <div class="flex justify-end">
-            <a href="{{ route('template.admin.datasantri') }}" class="mr-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded">Batal</a>
+                <a href="{{ route('template.admin.datasantri') }}" class="mr-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded">Batal</a>
                 <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">
                     Simpan
                 </button>

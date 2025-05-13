@@ -7,6 +7,10 @@ use App\Models\Santri;
 use App\Models\Kamar;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Absensicontroller extends Controller
 {
@@ -198,5 +202,62 @@ class Absensicontroller extends Controller
             'rekap', 'santris', 'kelasOptions', 'kamarOptions', 'bulan', 'tahun', 'semester'
         ));
         }
+
+
+ public function export(Request $request)
+{
+    $kelasId = $request->kelas; // id kelas
+
+    $absensis = Presensi::with(['santri.user', 'santri.kelas', 'santri.kamar'])
+        ->when($kelasId, function ($query, $kelasId) {
+            $query->whereHas('santri.kelas', function ($q) use ($kelasId) {
+                $q->where('id', $kelasId);
+            });
+        })
+        ->get();
+
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    // Header
+    $sheet->setCellValue('A1', 'No');
+    $sheet->setCellValue('B1', 'NIS');
+    $sheet->setCellValue('C1', 'Nama ');
+    $sheet->setCellValue('D1', 'Kelas');
+    $sheet->setCellValue('E1', 'Tingkat');
+    $sheet->setCellValue('F1', 'Kamar');
+    $sheet->setCellValue('G1', 'Tanggal');
+    $sheet->setCellValue('H1', 'Status');
+
+    // Data
+    $row = 2;
+    $no = 1;
+    foreach ($absensis as $data) {
+        $sheet->setCellValue('A' . $row, $no++);
+    $sheet->setCellValue('B' . $row, $data->santri->nis);
+    $sheet->setCellValue('C' . $row, $data->santri->user->name ?? '-');
+    $sheet->setCellValue('D' . $row, $data->santri->kelas->nama ?? '-');
+    $sheet->setCellValue('E' . $row, $data->santri->kelas->tingkat ?? '-');
+    $sheet->setCellValue('F' . $row, $data->santri->kamar->nama ?? '-');
+    $sheet->setCellValue('G' . $row, $data->tanggal);
+        $statusMap = [
+            'hadir' => 'Hadir',
+            'izin' => 'Izin ',
+            'sakit' => 'Sakit',
+            'alfa' => 'Tanpa Keterangan',
+        ];
+        
+        $sheet->setCellValue('H' . $row, $statusMap[$data->status] ?? 'Tidak Diketahui');
+        $row++;
+    }
+
+    // Output to browser
+    $writer = new Xlsx($spreadsheet);
+    $filename = 'Data_Absensi.xlsx';
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header("Content-Disposition: attachment; filename=\"$filename\"");
+    $writer->save('php://output');
+    exit;
+}
     
 }

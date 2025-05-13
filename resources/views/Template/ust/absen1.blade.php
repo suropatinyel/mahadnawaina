@@ -8,6 +8,7 @@
 <body class="bg-gray-100 p-6 min-h-screen flex flex-col justify-between">
     <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
         <h1 class="text-2xl font-bold mb-6 text-green-700">Daftar Absensi Santri</h1>
+@if(auth()->user()->role === 'ustadz')
 
         <!-- Filter & Tambah Absen -->
         <form action="{{ route('template.ust.absen1') }}" method="GET" class="mb-4">
@@ -31,6 +32,7 @@
                         @endforeach
                     </select>
                 </div>
+           
 
                 <div class="flex justify-end items-end space-x-2">
                     <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded">Filter</button>
@@ -38,6 +40,16 @@
                 </div>
             </div>
         </form>
+@endif
+             <form action="{{ route('absensi.export') }}" method="GET">
+        <select name="kelas" class="form-select">
+            <option value="">-- Pilih Kelas --</option>
+            @foreach($kelasOptions as $id => $nama)
+                <option value="{{ $id }}" {{ request('kelas') == $id ? 'selected' : '' }}>{{ $nama }}</option>
+            @endforeach
+        </select>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 fas fa-file-export">Export Excel</button>
+    </form>
 
         <!-- Daftar Absensi -->
         <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow mb-4">

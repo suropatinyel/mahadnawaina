@@ -6,6 +6,10 @@ use App\Models\Pembayaran;
 use App\Models\Pembayaran_detail;
 use App\Models\Santri;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Str;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class PembayaranController extends Controller
 {
@@ -61,46 +65,51 @@ class PembayaranController extends Controller
     }
     
 
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'santri_id' => 'required|exists:santris,id',
-            'jumlah' => 'numeric|min:0|max:99999999.99',
-            'tanggal' => 'required|date',
-            'metode_pembayaran' => 'required|in:cash,transfer,qris,beasiswa',
-            'file_transaksi' => 'nullable|file|mimes:jpg,png,pdf|max:2048',
-            'bulan' => 'required|string',
-            'keterangan' => 'nullable|string'
-        ]);
+public function store(Request $request)
+{
+    $validatedData = $request->validate([
+        'santri_id' => 'required|exists:santris,id',
+        'jumlah' => 'numeric|min:0|max:99999999.99',
+        'tanggal' => 'required|date',
+        'metode_pembayaran' => 'required|in:cash,transfer,qris,beasiswa',
+        'file_transaksi' => 'nullable|file|mimes:jpg,png,pdf|max:2048',
+        'bulan' => 'required|string',
+        'keterangan' => 'nullable|string',
+        'maksud_bayar' => 'required|in:Bulanan,Bukan Bulanan', // ✅ Tambahkan ini
+    ]);
 
-        if ($request->metode_pembayaran === 'cash') {
-            $validatedData['status_pembayaran'] = 'lunas';
-        } else {
-            $validatedData['status_pembayaran'] = 'pending';
-        }
+    
 
-        $validatedData['kode_transaksi'] = 'TRX-' . strtoupper(uniqid());
-
-        $pembayaran = Pembayaran::create($validatedData);
-
-        $detailData = [
-            'pembayaran_id' => $pembayaran->id,
-            'keterangan' => $request->input('keterangan'),
-        ];
-
-        if ($request->hasFile('file_transaksi')) {
-            $path = $request->file('file_transaksi')->store('transaksi', 'public');
-            $detailData['file_transaksi'] = $path;
-        }
-
-        Pembayaran_detail::create($detailData);
-
-        if (auth()->user()->isPetugas()) {
-            return redirect()->route('template.petugas.pembayaranSantri')->with('success', 'Pembayaran berhasil ditambahkan!');
-        }
-
-        return back()->with('success', 'Pembayaran berhasil dikirim!');
+    if ($request->metode_pembayaran === 'cash') {
+        $validatedData['status_pembayaran'] = 'lunas';
+    } else {
+        $validatedData['status_pembayaran'] = 'pending';
     }
+
+    $validatedData['kode_transaksi'] = 'TRX-' . strtoupper(uniqid());
+    $validatedData['maksud_bayar'] = $request->input('maksud_bayar'); // ✅ Simpan jenis pembayaran
+
+    $pembayaran = Pembayaran::create($validatedData);
+
+    $detailData = [
+        'pembayaran_id' => $pembayaran->id,
+        'keterangan' => $request->input('keterangan'),
+    ];
+
+    if ($request->hasFile('file_transaksi')) {
+        $path = $request->file('file_transaksi')->store('transaksi', 'public');
+        $detailData['file_transaksi'] = $path;
+    }
+
+    Pembayaran_detail::create($detailData);
+
+    if (auth()->user()->isPetugas()) {
+        return redirect()->route('template.petugas.pembayaranSantri')->with('success', 'Pembayaran berhasil ditambahkan!');
+    }
+
+    return back()->with('success', 'Pembayaran berhasil dikirim!');
+}
+
 
     public function edit($id)
     {
@@ -152,4 +161,91 @@ class PembayaranController extends Controller
 
         return redirect()->back()->with('success', 'Status pembayaran berhasil diperbarui.');
     }
+
+    // Menampilkan Riwayat Pembayaran
+public function showRiwayat($santriId)
+{
+    // Ambil data santri beserta riwayat pembayarannya, lalu paginate dengan 10 data per halaman
+    $santri = Santri::with('pembayarans')->findOrFail($santriId);
+    $pembayarans = $santri->pembayarans()->paginate(10); // Menambahkan paginate untuk 10 data per halaman
+
+    // Tampilkan halaman riwayat pembayaran
+    return view('template.santri.riwayat', compact('santri', 'pembayarans'));
+}
+
+
+public function downloadRiwayatPdf($santriId)
+{
+    // Ambil data santri dan riwayat pembayarannya
+    $santri = Santri::with('pembayarans', 'user')->findOrFail($santriId);
+    $pembayarans = $santri->pembayarans;
+
+    // Generate PDF dari view riwayat
+    $pdf = Pdf::loadView('template.santri.riwayatPdf', compact('santri', 'pembayarans'));
+
+    // Download file PDF langsung
+    return $pdf->download('riwayat-pembayaran.pdf');
+}
+
+public function downloadDetailPdf($pembayaranId)
+{
+    $pembayaran = Pembayaran::with('santri.user')->findOrFail($pembayaranId);
+
+    // Generate PDF untuk pembayaran tertentu
+    $pdf = Pdf::loadView('template.santri.riwayatDetailPdf', compact('pembayaran'));
+
+    // Download langsung file PDF
+    return $pdf->download('pembayaran-' . $pembayaran->id . '.pdf');
+}
+
+ public function export()
+    {
+        $pembayarans = Pembayaran::with(['santri.user', 'santri.kelas'])->get();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Header
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Nama Santri');
+        $sheet->setCellValue('C1', 'Kelas');
+        $sheet->setCellValue('D1', 'Tanggal');
+        $sheet->setCellValue('E1', 'Bulan');
+        $sheet->setCellValue('F1', 'Jumlah');
+        $sheet->setCellValue('G1', 'Kode Transaksi');
+        $sheet->setCellValue('H1', 'Maksud');
+        $sheet->setCellValue('I1', 'Status');
+        $sheet->setCellValue('J1', 'Metode');
+
+        // Data
+        $row = 2;
+        foreach ($pembayarans as $index => $p) {
+            $sheet->setCellValue('A' . $row, $index + 1);
+            $sheet->setCellValue('B' . $row, $p->santri->user->name ?? '-');
+            $sheet->setCellValue('C' . $row, $p->santri->kelas->nama ?? '-');
+            $sheet->setCellValue('D' . $row, $p->tanggal);
+            $sheet->setCellValue('E' . $row, $p->bulan);
+            $sheet->setCellValue('F' . $row, $p->jumlah);
+            $sheet->setCellValue('G' . $row, $p->kode_transaksi);
+            $sheet->setCellValue('H' . $row, $p->maksud_bayar);
+            $sheet->setCellValue('I' . $row, $p->status_pembayaran);
+            $sheet->setCellValue('J' . $row, $p->metode_pembayaran);
+            $row++;
+        }
+
+        // Output file
+        $filename = 'Data_Pembayaran_' . now()->format('Ymd_His') . '.xlsx';
+        $writer = new Xlsx($spreadsheet);
+
+        // Simpan sementara ke php://output
+        ob_start();
+        $writer->save('php://output');
+        $excelOutput = ob_get_clean();
+
+        return response($excelOutput)
+            ->header('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            ->header('Content-Disposition', "attachment; filename=\"$filename\"");
+    }
+
+
 }

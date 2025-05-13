@@ -34,9 +34,9 @@ return new class extends Migration {
             $table->string('nama_ayah');
             $table->string('nama_ibu');
             $table->string('nama_wali')->nullable();
-            $table->enum('status', ['aktif', 'alumni'])->default('aktif');
-            $table->time('waktu_masuk')->nullable();
-            $table->time('waktu_keluar')->nullable();
+            $table->enum('status', ['aktif', 'alumni', 'boyong', 'baru'])->default('aktif');
+            $table->date('waktu_masuk')->nullable();
+            $table->date('waktu_keluar')->nullable();
             $table->timestamps();
         });
 
@@ -71,6 +71,7 @@ return new class extends Migration {
             $table->date('tanggal');
             $table->string('bulan')->nullable();
             $table->string('kode_transaksi')->unique();
+            $table->enum('maksud_bayar', ['Bulanan', 'Bukan Bulanan']);
             $table->enum('status_pembayaran', ['pending', 'lunas', 'gagal'])->default('pending');
             $table->enum('metode_pembayaran', ['cash', 'transfer', 'qris', 'beasiswa'])->default('cash');
             $table->timestamps();

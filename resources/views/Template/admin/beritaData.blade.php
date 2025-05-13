@@ -17,6 +17,7 @@
         <tr class="bg-gray-200 text-gray-700">
             <th class="px-4 py-2 text-left">Judul</th>
             <th class="px-4 py-2 text-left">Tanggal Publikasi</th>
+            <th class="px-4 py-2 text-left">Link</th>
             <th class="px-4 py-2 text-left">Status</th>
             <th class="px-4 py-2 text-center">Aksi</th>
         </tr>
@@ -26,6 +27,11 @@
         <tr class="border-b">
             <td class="px-4 py-2">{{ $berita->judul }}</td>
             <td class="px-4 py-2">{{ date('h:m d-m-Y', strtotime($berita->tanggal_publikasi)) }}</td>
+            <td>
+                <a href="{{ $berita->link }}" target="_blank" class="text-blue-600 hover:underline">
+                    {{ Str::limit($berita->link, 30, '...') }} <!-- Menampilkan link dengan batasan panjang -->
+                </a>
+            </td>
             <td class="px-4 py-2 capitalize">{{ $berita->status }}</td>
             <td class="px-4 py-2 text-center space-x-2">
                 <!-- Tombol Edit -->

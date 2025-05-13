@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\petugaspembayaran;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PtgsPembayaranControler extends Controller
 {
@@ -66,37 +67,43 @@ class PtgsPembayaranControler extends Controller
         return view('template.admin.petugasEdit', compact('petugas'));
     }
 
-    public function update(Request $request, $id)
-    {
-        // Validasi Input
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'nullable|min:6',
-            'alamat' => 'required|string',
-            'no_hp' => 'required|string|max:15',
-        ]);
+
+public function update(Request $request, $id)
+{
+    // Cari Petugas berdasarkan ID
+    $petugas = PetugasPembayaran::findOrFail($id);
+    $user = User::findOrFail($petugas->user_id);
     
-        // Cari Petugas berdasarkan ID
-        $petugas = PetugasPembayaran::findOrFail($id);
-        
-        // Update User terkait
-        $user = User::findOrFail($petugas->user_id);
-        $user->update([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => $request->input('password') ? bcrypt($request->input('password')) : $user->password,
-        ]);
+    // Validasi Input
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => [
+            'required',
+            'email',
+            // Hanya melakukan pengecekan unique jika email berubah
+            Rule::unique('users')->ignore($user->id), // Abaikan pengecekan duplikat email untuk user yang sedang diupdate
+        ],
+        'password' => 'nullable|min:6',
+        'alamat' => 'required|string',
+        'no_hp' => 'required|string|max:15',
+    ]);
     
-        // Update Data Petugas
-        $petugas->update([
-            'alamat' => $request->input('alamat'),
-            'no_hp' => $request->input('no_hp'),
-        ]);
+    // Update User terkait
+    $user->update([
+        'name' => $request->input('name'),
+        'email' => $request->input('email'),
+        'password' => $request->filled('password') ? bcrypt($request->input('password')) : $user->password,
+    ]);
     
-        return redirect()->route('template.admin.dataPetugas')->with('success', 'Data Petugas berhasil diperbarui!');
-    }
+    // Update Data Petugas
+    $petugas->update([
+        'alamat' => $request->input('alamat'),
+        'no_hp' => $request->input('no_hp'),
+    ]);
     
+    return redirect()->route('template.admin.dataPetugas')->with('success', 'Data Petugas berhasil diperbarui!');
+}
+
     public function destroy($id)
     {
         // Cari petugas berdasarkan ID
