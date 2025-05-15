@@ -93,7 +93,7 @@
                                 <td class="py-2 px-4 border">{{ $loop->iteration }}</td>
                                 <td class="py-2 px-4 border">{{ $santri->no_induk_santri }}</td>
                                 <td class="py-2 px-4 border">{{ $santri->nis }}</td>
-                                <td class="py-2 px-4 border">{{ $santri->user->name }}</td>
+                                <td class="py-2 px-4 border">{{ $santri->user?->name ?? '-' }}</td>
                                 <td class="py-2 px-4 border">{{ $santri->kamar->nama }}</td>
                                 <td class="py-2 px-4 border">{{ $santri->kelas->nama }}</td>
                                 <td class="py-2 px-4 border">{{ $santri->alamat }}</td>
