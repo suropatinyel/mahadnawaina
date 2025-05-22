@@ -34,6 +34,9 @@ class Absensicontroller extends Controller
                 $q->where('kamar_id', $kamar);
             });
         }
+        if ($request->tanggal) {
+        $query->whereDate('tanggal', $request->tanggal);
+    }
     
         $absensis = $query->paginate(10);
     

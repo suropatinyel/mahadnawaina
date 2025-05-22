@@ -7,6 +7,7 @@
     <title>Dashboard Ustadz</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 </head>
 
 <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
@@ -15,7 +16,7 @@
             <!-- Header -->
             <div class="flex items-center justify-between border-b pb-6 mb-6">
                 <div class="flex items-center space-x-4">
-                    <img alt="Logo" width="50" height="50" class="rounded-full shadow-md" src="{{ asset('Logo.png') }}" />
+                    <img alt="Logo" width="50" height="50" class="rounded-full shadow-md" src="{{ asset('logoMahad.png') }}" />
                     <div>
                         <h1 class="text-2xl font-bold text-gray-800">Mahad Nawaina</h1>
                         <h2 class="text-orange-600 text-sm uppercase tracking-wide">MTSN 2 Kota Malang</h2>
@@ -43,7 +44,7 @@
             <!-- Action Cards -->
             <div class="flex justify-center">
                 <a href="{{ route('template.ust.absen1') }}" class="bg-green-500 hover:bg-green-600 text-white p-6 rounded-2xl text-center font-semibold shadow-md transition transform hover:scale-105 w-64">
-                    Data Presensi
+                    Data Absensi
                 </a>
             </div>                <!-- Tambahkan card lainnya jika dibutuhkan -->
             </div>

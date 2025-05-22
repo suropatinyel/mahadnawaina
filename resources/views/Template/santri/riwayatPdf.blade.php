@@ -20,6 +20,12 @@
             margin-bottom: 30px;
         }
 
+        .header img {
+            width: 100px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
         .header h1 {
             font-size: 24px;
             color: #4CAF50;
@@ -63,6 +69,7 @@
 <body>
 
     <div class="header">
+        <img src="{{ public_path('logoMahad.png') }}" alt="Logo Mahad">
         <h1>Riwayat Pembayaran Santri</h1>
         <p>Nama Santri: <strong>{{ $santri->user->name }}</strong></p>
     </div>
@@ -75,7 +82,7 @@
                 <th>Metode Pembayaran</th>
                 <th>Status</th>
                 <th>Jumlah</th>
-                <th>Tujuan Pembayaran</th> <!-- Kolom baru untuk maksud bayar -->
+                <th>Tujuan Pembayaran</th>
             </tr>
         </thead>
         <tbody>
@@ -86,7 +93,7 @@
                     <td>{{ ucfirst($pembayaran->metode_pembayaran) }}</td>
                     <td>{{ ucfirst($pembayaran->status_pembayaran) }}</td>
                     <td>Rp {{ number_format($pembayaran->jumlah, 0, ',', '.') }}</td>
-                    <td>{{ $pembayaran->maksud_bayar ?? 'Tujuan bayar tidak tersedia' }}</td> <!-- Menampilkan maksud bayar -->
+                    <td>{{ $pembayaran->maksud_bayar ?? 'Tujuan bayar tidak tersedia' }}</td>
                 </tr>
             @empty
                 <tr>
@@ -97,7 +104,7 @@
     </table>
 
     <div class="footer">
-        <p>Data ini dicetak secara otomatis oleh sistem Ma'had Nawaina.</p>
+        <p>Data ini dicetak secara otomatis oleh sistem Mahad Nawaina.</p>
     </div>
 
 </body>

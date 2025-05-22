@@ -11,6 +11,7 @@
             background-color: #597E46;
         }
     </style>
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 </head>
 
 <body class="flex items-center justify-center min-h-screen px-4">

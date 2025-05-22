@@ -12,6 +12,7 @@ class santri extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
+        'id',
         'user_id',
         'no_induk_santri',
         'nis',

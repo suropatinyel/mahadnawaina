@@ -42,9 +42,12 @@
                 <button type="submit" class="w-full bg-yellow-500 text-white font-bold py-2 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">Login</button>
             </form>
 
-            <div class="mt-4 text-center">
+            <div class="mt-4 flex justify-between text-sm">
+                <a href="{{ route('password.request') }}" class="text-green-700 font-semibold hover:underline">Lupa Password?</a>
                 <p class="text-gray-700">Belum punya akun? <a href="{{ route('register') }}" class="text-green-700 font-semibold hover:underline">Daftar disini</a></p>
             </div>
+
+        
         </div>
 
     </div>

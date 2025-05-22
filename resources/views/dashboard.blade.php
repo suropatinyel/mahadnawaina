@@ -9,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com">
     </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 </head>
 
 <body class="bg-gray-100">
@@ -16,7 +17,7 @@
 <header class="bg-white shadow-md">
     <div class="container mx-auto flex justify-between items-center py-4 px-6">
         <div class="flex items-center">
-            <img alt="Logo" class="h-10 w-10" src="Logo.png" />
+            <img alt="Logo" class="h-10 w-10" src="logoMahad.png" />
             <div class="ml-4">
                 <h1 class="text-lg font-bold">
                     Mahad Nawaina
@@ -78,15 +79,16 @@
     <p class="text-center text-gray-700 mb-12 text-xl">
         Berita di Mahad Nawaina meliputi berbagai aktivitas yang mendukung pengembangan diri, baik dalam bidang akademik maupun non-akademik.
     </p>
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 px-4">
         @foreach ($beritas as $berita)
-                <div class="bg-white p-4 rounded-lg mx-10 shadow-md overflow-hidden flex flex-col">
+        @if ($berita->status === 'terbit')
+                <div class="bg-white p-4 rounded-lg mx-1 shadow-md overflow-hidden flex flex-col">
                     <img alt="{{ $berita->judul }}" class="w-full h-40 object-cover rounded-lg mb-4" src="{{ Storage::url($berita->gambar) }}" />
                     
                     <h3 class="text-lg font-bold mb-2">{{ $berita->judul }}</h3>
 
                     <p class="text-sm text-gray-700 mb-4">
-                        {{ \Illuminate\Support\Str::limit(strip_tags($berita->isi), 30, '....') }}
+                        {{ \Illuminate\Support\Str::limit(strip_tags($berita->isi), 200, '....') }}
                     </p>
 
                     @if (!empty($berita->link))
@@ -97,6 +99,7 @@
                         <span class="mt-auto text-gray-400 italic text-sm">Link belum tersedia</span>
                     @endif
                 </div>
+                @endif
         @endforeach
     </div>
 </section>
@@ -169,7 +172,7 @@
     <!-- SUSUNAN PENGURUS Section with Carousel -->
     <div class="bg-black text-white p-6">
         <h1 class="text-2xl font-bold">
-            SUSUNAN PENGURUS MA'HAD NAWA'INA MTsN 2 KOTA MALANG
+            SUSUNAN PENGURUS MAHAD NAWAINA MTsN 2 KOTA MALANG
         </h1>
         <p class="mt-2">
             Masa Khidmat 2021-2022
@@ -185,7 +188,7 @@
                     <!-- Carousel Item -->
                     <div class="w-1/3 flex-none px-4">
                         <div class="bg-white rounded-lg shadow-lg p-6">
-                            <img class="rounded-full w-32 h-32 mx-auto mb-4" src="https://placehold.co/150x150" alt="Teacher 1" />
+                            <img class=" rounded-full w-32 h-32 mx-auto mb-4" src="https://placehold.co/200x200" alt="Teacher 1" />
                             <h3 class="text-xl text-center font-semibold">Ust. Ahmad</h3>
                             <p class="text-center text-gray-600">Pengasuh Mahad</p>
                         </div>
@@ -193,7 +196,7 @@
                     <!-- Carousel Item -->
                     <div class="w-1/3 flex-none px-4">
                         <div class="bg-white rounded-lg shadow-lg p-6">
-                            <img class="rounded-full w-32 h-32 mx-auto mb-4" src="https://placehold.co/150x150" alt="Teacher 2" />
+                            <img class="rounded-full w-32 h-32 mx-auto mb-4" src="https://placehold.co/200x200" alt="Teacher 2" />
                             <h3 class="text-xl text-center font-semibold">Ust. Ali</h3>
                             <p class="text-center text-gray-600">Pengurus Mahad</p>
                         </div>
@@ -201,7 +204,7 @@
                     <!-- Carousel Item -->
                     <div class="w-1/3 flex-none px-4">
                         <div class="bg-white rounded-lg shadow-lg p-6">
-                            <img class="rounded-full w-32 h-32 mx-auto mb-4" src="https://placehold.co/150x150" alt="Teacher 3" />
+                            <img class="rounded-full w-32 h-32 mx-auto mb-4" src="https://placehold.co/200x200" alt="Teacher 3" />
                             <h3 class="text-xl text-center font-semibold">Ust. Fatimah</h3>
                             <p class="text-center text-gray-600">Pengurus Mahad</p>
                         </div>
@@ -209,7 +212,7 @@
                     <!-- Carousel Item -->
                     <div class="w-1/3 flex-none px-4">
                         <div class="bg-white rounded-lg shadow-lg p-6">
-                            <img class="rounded-full w-32 h-32 mx-auto mb-4" src="https://placehold.co/150x150" alt="Teacher 4" />
+                            <img class="rounded-full w-32 h-32 mx-auto mb-4" src="https://placehold.co/200x200" alt="Teacher 4" />
                             <h3 class="text-xl text-center font-semibold">Ust. Zainab</h3>
                             <p class="text-center text-gray-600">Pengurus Mahad</p>
                         </div>
@@ -309,7 +312,7 @@
     <!-- Footer Section -->
     <div class="bg-green-800 text-white py-8">
         <div class="container mx-auto text-center">
-            <img alt="Logo" class="mx-auto mb-4 h-24" src="Logo.png" />
+            <img alt="Logo" class="mx-auto mb-4 h-24" src="logoMahad.png" />
             <div class="flex justify-center space-x-8 mb-4">
                 <a href="#" class="text-white hover:text-yellow-400">Home</a>
                 <a href="#" class="text-white hover:text-yellow-400">About Us</a>
@@ -328,7 +331,7 @@
                 <a href="#" class="text-white hover:text-yellow-400"><i class="fab fa-youtube"></i></a>
             </div>
             <p class="mt-4 text-sm">
-                © 2025 Ma'had Nawaina. All rights reserved.
+                © 2025 Mahad Nawaina. All rights reserved.
             </p>
         </div>
     </div>

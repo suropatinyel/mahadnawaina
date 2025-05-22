@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 </head>
 
 <body class="bg-white text-gray-800">
@@ -17,7 +18,7 @@
     src="{{ asset('schoolbanner.jpg') }}" />
         <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center px-4">
             <h1 class="text-white text-3xl md:text-5xl font-extrabold drop-shadow">SELAMAT DATANG</h1>
-            <h2 class="text-orange-400 text-2xl md:text-4xl font-bold mt-2 drop-shadow">MA'HAD NAWAINA</h2>
+            <h2 class="text-orange-400 text-2xl md:text-4xl font-bold mt-2 drop-shadow">MAHAD NAWAINA</h2>
             <p class="text-white text-base md:text-lg mt-1">MTsN 2 Kota Malang</p>
         </div>
         <!-- Logout Button -->
@@ -35,7 +36,7 @@
     <!-- Main Content Section -->
     <main class="py-12 px-6 md:px-16 max-w-6xl mx-auto">
         <section class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold text-green-700 mb-4">Ma'had Nawaina</h2>
+            <h2 class="text-3xl md:text-4xl font-bold text-green-700 mb-4">Mahad Nawaina</h2>
             <p class="text-gray-600 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
                 Pendidikan formal baik madrasah maupun sekolah merupakan upaya pendidikan yang komprehensif ...
             </p>

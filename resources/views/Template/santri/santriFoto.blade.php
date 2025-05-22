@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Tambah Pembayaran</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 </head>
 <body class="bg-gray-100 h-screen flex items-center justify-center">
     <div class="w-full max-w-3xl bg-white p-8 rounded shadow">

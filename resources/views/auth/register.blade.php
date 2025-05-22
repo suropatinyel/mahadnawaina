@@ -46,7 +46,7 @@
             </div>
 
             <div class="mt-4">
-                <p class="text-right text-sm italic text-gray-700">Already have an account? <a href="/login" class="text-green-700 hover:underline">Login</a></p>
+                <p class="text-right text-sm italic text-gray-700">Sudah punya akun? <a href="/login" class="text-green-700 hover:underline">Login</a></p>
             </div>
         </form>
 

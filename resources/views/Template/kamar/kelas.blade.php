@@ -5,13 +5,14 @@
     <title>Daftar Kelas</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 </head>
 <body class="bg-gray-100 p-6">
 
     <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
         <!-- Header -->
         <div class="flex items-center mb-6">
-            <img src="" alt="School Logo" class="h-12 w-12 mr-4">
+            <img src="logoMahad.png" alt="School Logo" class="h-12 w-12 mr-4">
             <div>
                 <h1 class="text-xl font-bold text-gray-800">Ma'Had Nawaina</h1>
                 <h2 class="text-sm text-orange-600">MTSN 2 Kota Malang</h2>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Daftar Absensi Santri</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 </head>
 <body class="bg-gray-100 p-6 min-h-screen flex flex-col justify-between">
     <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
@@ -32,6 +33,11 @@
                         @endforeach
                     </select>
                 </div>
+
+                <div>
+                    <label class="block">Tanggal</label>
+                    <input type="date" name="tanggal" value="{{ request('tanggal') }}" class="w-full border rounded p-2">
+                </div>
            
 
                 <div class="flex justify-end items-end space-x-2">
@@ -59,7 +65,9 @@
                     <th class="p-3 text-left">Tanggal</th>
                     <th class="p-3 text-left">Status</th>
                     <th class="p-3 text-left">Keterangan</th>
+                                @if(auth()->user()->role === 'ustadz')
                     <th class="p-3 text-left">Action</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -69,6 +77,7 @@
                         <td class="p-3">{{ $absen->tanggal->format('d/m/Y') }}</td>
                         <td class="p-3">{{ ucfirst($absen->status) }}</td>
                         <td class="p-3">{{ $absen->keterangan }}</td>
+                                    @if(auth()->user()->role === 'ustadz')
                         <td class="p-3">
                             <a href="{{ route('absensi.edit', $absen->id) }}" class="text-blue-600 hover:underline">Edit</a>
                             <form action="{{ route('absensi.destroy', $absen->id) }}" method="POST" class="inline-block ml-2" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
@@ -77,6 +86,7 @@
                                 <button type="submit" class="text-red-600 hover:underline">Delete</button>
                             </form>
                         </td>
+                        @endif
                     </tr>
                 @endforeach
                 @if($absensis->isEmpty())
@@ -86,12 +96,21 @@
                     @endif
                 </tbody>
             </table>
+            @if(auth()->user()->role === 'ustadz')
             <div class="mt-6">
                 <a href="{{ route('ustDashboard') }}" class="inline-block bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
                     &larr; Kembali
                 </a>
             </div>
 
+            @endif
+            @if(auth()->user()->role === 'admin')
+            <div class="mt-6">
+                <a href="{{ route('adminDashboard') }}" class="inline-block bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                    &larr; Kembali
+                </a>
+            </div>
+    @endif
         <!-- Pagination -->
         <div class="mt-4">
             {{ $absensis->links() }}

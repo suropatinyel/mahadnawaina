@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Tambah Absensi Santri</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 </head>
 <body class="bg-gray-100 min-h-screen py-8 px-4">
     <div class="max-w-7xl mx-auto">

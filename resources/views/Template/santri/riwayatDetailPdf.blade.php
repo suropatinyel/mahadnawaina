@@ -24,6 +24,17 @@
             border-radius: 8px;
         }
 
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header img {
+            width: 100px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
         h1 {
             text-align: center;
             color: #4CAF50;
@@ -72,6 +83,10 @@
 
 <body>
     <div class="container">
+        <div class="header">
+            <img src="{{ public_path('logoMahad.png') }}" alt="Logo Mahad">
+        </div>
+
         <h1>Detail Pembayaran</h1>
         <div class="name">
             <strong>{{ $pembayaran->santri->user->name ?? 'Nama tidak tersedia' }}</strong>
@@ -98,7 +113,6 @@
                 <th>Status Pembayaran</th>
                 <td>{{ ucfirst($pembayaran->status_pembayaran ?? 'Pending') }}</td>
             </tr>
-            <!-- Baris baru untuk maksud bayar -->
             <tr>
                 <th>Tujuan Pembayaran</th>
                 <td>{{ $pembayaran->maksud_bayar ?? 'Maksud bayar tidak tersedia' }}</td>
@@ -106,7 +120,7 @@
         </table>
 
         <div class="footer">
-            <p>Terima kasih telah melakukan pembayaran di Ma'had Nawaina.</p>
+            <p>Terima kasih telah melakukan pembayaran di Mahad Nawaina.</p>
         </div>
     </div>
 </body>
